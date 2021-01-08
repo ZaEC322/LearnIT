@@ -1,23 +1,25 @@
-﻿using System;
+﻿using FontAwesome.Sharp; //Библ. с иконками.
+using LearnIT.SecondaryForms;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using FontAwesome.Sharp; //Библ. с иконками.
-using LearnIT.SecondaryForms;
 
 namespace LearnIT
 {
     //Мейнформа предаставляет собой меню. Слева на панели будут кнопки для открытия дочерних форм.
     public partial class FormMainMenu : Form
     {
-        #region  Переменные, структуры, дллимпорты
+        #region Переменные, структуры, дллимпорты
+
         private IconButton currentBtn; //Для храниение текущей активной кнопки.
         private Panel leftBorderBtn; //полоска слева от кнопки для красоты. Появляеться после активации кнопки.
-        private Form currentChildForm; //для дочерней формы 
-        public bool isMax; 
+        private Form currentChildForm; //для дочерней формы
+        public bool isMax;
 
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
+
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
         private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
@@ -34,12 +36,12 @@ namespace LearnIT
             public static Color color5 = Color.FromArgb(249, 88, 155);
             public static Color color6 = Color.FromArgb(24, 161, 251);
         }
-        #endregion
+
+        #endregion Переменные, структуры, дллимпорты
 
         //конструктор
         public FormMainMenu()
         {
-
             InitializeComponent();
 
             leftBorderBtn = new Panel();
@@ -50,13 +52,13 @@ namespace LearnIT
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             FormBorderStyle = FormBorderStyle.None;
-
         }
 
-
         #region Рабочие методы
+
         /// <summary>
-        /// Изменение вида кнопки после нажатия на неё придавая ей цвет и смещая содержимое чтобы было понятно что она нажата.
+        /// Изменение вида кнопки после нажатия на неё придавая ей цвет и смещая содержимое чтобы
+        /// было понятно что она нажата.
         /// </summary>
         /// <param name="senderBtn"></param>
         /// <param name="color"></param>
@@ -141,11 +143,13 @@ namespace LearnIT
             iconCurrentChildForm.IconColor = Color.MediumPurple;
             lblTitleChildForm.Text = "Домашня сторінка";
         }
-        #endregion
 
-        #region События нажатия кнопок 
+        #endregion Рабочие методы
+
+        #region События нажатия кнопок
 
         #region Кнопки на левой панели
+
         /// <summary>
         /// Переключает состояние кнопки game в активное положение. Открывает форму игры.
         /// </summary>
@@ -156,6 +160,7 @@ namespace LearnIT
             ActivateButton(sender, RGBColors.color1);
             OpenChildForm(new FormGame());
         }
+
         /// <summary>
         /// Переключает состояние кнопки Settings в активное положение. Открывает форму настроек.
         /// </summary>
@@ -164,8 +169,9 @@ namespace LearnIT
         private void IconButton_Settings_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color2);
-            OpenChildForm(new FormSettings());    
+            OpenChildForm(new FormSettings());
         }
+
         /// <summary>
         /// Переключает состояние кнопки About в активное положение. Открывает форму про программу.
         /// </summary>
@@ -176,8 +182,10 @@ namespace LearnIT
             ActivateButton(sender, RGBColors.color3);
             OpenChildForm(new FormAbout());
         }
+
         /// <summary>
-        /// Кнопка домой. При нажатии на название программы в левом верхнем углу текущая дочерняя форма будет закрыта
+        /// Кнопка домой. При нажатии на название программы в левом верхнем углу текущая дочерняя
+        /// форма будет закрыта
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -189,9 +197,11 @@ namespace LearnIT
                 Reset();
             }
         }
-        #endregion
+
+        #endregion Кнопки на левой панели
 
         #region Управление формой справа сверху
+
         private void IconButton_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -204,20 +214,19 @@ namespace LearnIT
                 WindowState = FormWindowState.Maximized;
                 isMax = true;
             }
-
             else
             {
                 WindowState = FormWindowState.Normal;
                 isMax = false;
             }
-
         }
 
         private void IconButton_Minimize_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
-        #endregion
+
+        #endregion Управление формой справа сверху
 
         #region Двигать форму за верхнюю панель
 
@@ -226,20 +235,21 @@ namespace LearnIT
             ReleaseCapture();
             SendMessage(Handle, 0x112, 0xf012, 0);
         }
+
         private void LblTitleChildForm_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
             SendMessage(Handle, 0x112, 0xf012, 0);
         }
+
         private void IconCurrentChildForm_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
             SendMessage(Handle, 0x112, 0xf012, 0);
         }
-        #endregion
-        #endregion
 
+        #endregion Двигать форму за верхнюю панель
 
-
+        #endregion События нажатия кнопок
     }
 }

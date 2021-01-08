@@ -11,21 +11,22 @@ namespace LearnIT.SecondaryForms
     public partial class FormGame : Form
     {
         #region поля
-        List<Question> list_Questions = new List<Question>();//создаём листы для хранения объектов класса question которые заполняем из бд
-        List<Choice> list_Choices = new List<Choice>();//после заполняем ответы
-        Random rand = new Random();//объект класса рандом.
-        int current_id;// id вопроса для выполнения процедуры по поиску ответов в базе. 
-        int counter;//количество правильно отвеченых вопросов
-        int temp; // для хранинения рандомно выбраного индекса текущего вопроса.
-        int questCount;//изначальное общее кол-во вопросов.
-        int _ticks;//для счёта времени
-        bool result1; //Для проверки заполнился ли лист из бд. Если нет то false.
-        bool[] Is_Correct = new bool[4]; //переменные для проверки правильности ответа
-        bool Is_Answered;//если на текущий вопрос дан ответ == true, если не дан то false
+
+        private List<Question> list_Questions = new List<Question>();//создаём листы для хранения объектов класса question которые заполняем из бд
+        private List<Choice> list_Choices = new List<Choice>();//после заполняем ответы
+        private Random rand = new Random();//объект класса рандом.
+        private int current_id;// id вопроса для выполнения процедуры по поиску ответов в базе.
+        private int counter;//количество правильно отвеченых вопросов
+        private int temp; // для хранинения рандомно выбраного индекса текущего вопроса.
+        private int questCount;//изначальное общее кол-во вопросов.
+        private int _ticks;//для счёта времени
+        private bool result1; //Для проверки заполнился ли лист из бд. Если нет то false.
+        private bool[] Is_Correct = new bool[4]; //переменные для проверки правильности ответа
+        private bool Is_Answered;//если на текущий вопрос дан ответ == true, если не дан то false
 
         internal ConnectDB Dbb { get; set; } = new ConnectDB();
 
-        #endregion
+        #endregion поля
 
         public FormGame()
         {
@@ -33,7 +34,9 @@ namespace LearnIT.SecondaryForms
         }
 
         #region события
+
         #region изменения цвета текстбоксов как у кнопок
+
         private void Btn_Answer1_MouseEnter(object sender, EventArgs e)
         {
             btn_Answer1.Cursor = Cursors.Arrow;
@@ -41,8 +44,8 @@ namespace LearnIT.SecondaryForms
             {
                 btn_Answer1.BackColor = Color.FromArgb(34, 33, 94);
             }
-
         }
+
         private void Btn_Answer2_MouseEnter(object sender, EventArgs e)
         {
             btn_Answer2.Cursor = Cursors.Arrow;
@@ -50,8 +53,8 @@ namespace LearnIT.SecondaryForms
             {
                 btn_Answer2.BackColor = Color.FromArgb(34, 33, 94);
             }
-
         }
+
         private void Btn_Answer3_MouseEnter(object sender, EventArgs e)
         {
             btn_Answer3.Cursor = Cursors.Arrow;
@@ -59,8 +62,8 @@ namespace LearnIT.SecondaryForms
             {
                 btn_Answer3.BackColor = Color.FromArgb(34, 33, 94);
             }
-
         }
+
         private void Btn_Answer4_MouseEnter(object sender, EventArgs e)
         {
             btn_Answer4.Cursor = Cursors.Arrow;
@@ -68,8 +71,8 @@ namespace LearnIT.SecondaryForms
             {
                 btn_Answer4.BackColor = Color.FromArgb(34, 33, 94);
             }
-
         }
+
         private void Btn_Answer1_MouseLeave(object sender, EventArgs e)
         {
             if (!Is_Answered)
@@ -77,6 +80,7 @@ namespace LearnIT.SecondaryForms
                 btn_Answer1.BackColor = Color.FromArgb(34, 33, 74);
             }
         }
+
         private void Btn_Answer2_MouseLeave(object sender, EventArgs e)
         {
             if (!Is_Answered)
@@ -84,6 +88,7 @@ namespace LearnIT.SecondaryForms
                 btn_Answer2.BackColor = Color.FromArgb(34, 33, 74);
             }
         }
+
         private void Btn_Answer3_MouseLeave(object sender, EventArgs e)
         {
             if (!Is_Answered)
@@ -91,6 +96,7 @@ namespace LearnIT.SecondaryForms
                 btn_Answer3.BackColor = Color.FromArgb(34, 33, 74);
             }
         }
+
         private void Btn_Answer4_MouseLeave(object sender, EventArgs e)
         {
             if (!Is_Answered)
@@ -98,16 +104,23 @@ namespace LearnIT.SecondaryForms
                 btn_Answer4.BackColor = Color.FromArgb(34, 33, 74);
             }
         }
-        #endregion
+
+        #endregion изменения цвета текстбоксов как у кнопок
 
         #region снятие выделений у текстбоксов
+
         private void Btn_Answer1_MouseMove(object sender, MouseEventArgs e) => btn_Answer1.SelectionLength = 0;
+
         private void Btn_Answer2_MouseMove(object sender, MouseEventArgs e) => btn_Answer2.SelectionLength = 0;
+
         private void Btn_Answer3_MouseMove(object sender, MouseEventArgs e) => btn_Answer3.SelectionLength = 0;
+
         private void Btn_Answer4_MouseMove(object sender, MouseEventArgs e) => btn_Answer4.SelectionLength = 0;
-        #endregion
+
+        #endregion снятие выделений у текстбоксов
 
         #region клики кнопки на форме
+
         /// <summary>
         /// Запускает игру
         /// </summary>
@@ -124,10 +137,8 @@ namespace LearnIT.SecondaryForms
             timer1.Start();
         }
 
-
         private void Btn_Answer1_Click(object sender, EventArgs e)
         {
-
             if (!Is_Answered)
             {
                 if (WinOrLose(0))
@@ -139,7 +150,6 @@ namespace LearnIT.SecondaryForms
             }
             else
             {
-
                 if (Is_Correct[0] == true)
                 {
                     btn_Answer1.BackColor = Color.Green;
@@ -149,13 +159,10 @@ namespace LearnIT.SecondaryForms
                     btn_Answer1.BackColor = Color.Red;
                 }
             }
-
-
         }
 
         private void Btn_Answer2_Click(object sender, EventArgs e)
         {
-
             if (!Is_Answered)
             {
                 if (WinOrLose(1))
@@ -175,13 +182,11 @@ namespace LearnIT.SecondaryForms
                 {
                     btn_Answer2.BackColor = Color.Red;
                 }
-
             }
         }
 
         private void Btn_Answer3_Click(object sender, EventArgs e)
         {
-
             if (!Is_Answered)
             {
                 if (WinOrLose(2))
@@ -193,7 +198,6 @@ namespace LearnIT.SecondaryForms
             }
             else
             {
-
                 if (Is_Correct[2] == true)
                 {
                     btn_Answer3.BackColor = Color.Green;
@@ -202,13 +206,11 @@ namespace LearnIT.SecondaryForms
                 {
                     btn_Answer3.BackColor = Color.Red;
                 }
-
             }
         }
 
         private void Btn_Answer4_Click(object sender, EventArgs e)
         {
-
             if (!Is_Answered)
             {
                 if (WinOrLose(3))
@@ -220,7 +222,6 @@ namespace LearnIT.SecondaryForms
             }
             else
             {
-
                 if (Is_Correct[3] == true)
                 {
                     btn_Answer4.BackColor = Color.Green;
@@ -237,7 +238,7 @@ namespace LearnIT.SecondaryForms
             NextQuestion();
         }
 
-        #endregion
+        #endregion клики кнопки на форме
 
         /// <summary>
         /// Чистит листы и заполняет их заново. Обнуляет таймеры, счётчики и тд.
@@ -255,13 +256,14 @@ namespace LearnIT.SecondaryForms
 
             if (list_Questions.Count == 0)
                 GameEnd();
-            questCount = list_Questions.Count; //Присваеваем в лоаде потому-что записи из листа по мере выполнения 
+            questCount = list_Questions.Count; //Присваеваем в лоаде потому-что записи из листа по мере выполнения
                                                //программы будут удаляться и надо записыть кол-во вопросов заранее.
 
             panelQuestion.Hide();
             tablePanel_Choices.Hide();
             PlayButton.BringToFront();
         }
+
         /// <summary>
         /// Событие таймера. Считает время
         /// </summary>
@@ -272,8 +274,11 @@ namespace LearnIT.SecondaryForms
             _ticks++;
             label_Timer.Text = _ticks.ToString() + " сек.";
         }
-        #endregion
+
+        #endregion события
+
         #region рабочие методы
+
         /// <summary>
         /// В зависимости от правильсности выбраного ответа возвращаем тру или фолс
         /// </summary>
@@ -293,10 +298,10 @@ namespace LearnIT.SecondaryForms
                 list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
                 return false;
             }
-
         }
+
         /// <summary>
-        /// Перемещение по вопросам 
+        /// Перемещение по вопросам
         /// </summary>
         private void NextQuestion()
         {
@@ -330,7 +335,7 @@ namespace LearnIT.SecondaryForms
                 MessageBox.Show("Error");
                 Close();
             }
-            //заполняем лист ответов в соответствии с вопросом. Делаем это после вопросов потому-что вопросы меняються и нужно подгружать из базы ответы 
+            //заполняем лист ответов в соответствии с вопросом. Делаем это после вопросов потому-что вопросы меняються и нужно подгружать из базы ответы
             //динамически в соответсвии с вопросом.
             bool result2 = Dbb.Init_ListChoices(list_Choices, current_id);
 
@@ -355,9 +360,7 @@ namespace LearnIT.SecondaryForms
                 btn_Answer3.Text = AnswerTexts[2].ToString();
                 btn_Answer4.Text = AnswerTexts[3].ToString();
 
-
                 #region меняем расположение кнопок
-
 
                 /* Point[] points =
                  {
@@ -396,7 +399,7 @@ namespace LearnIT.SecondaryForms
                     tablePanel_Choices.SetCellPosition(c[i], RandomizedP[i]);
                 }
 
-                #endregion
+                #endregion меняем расположение кнопок
 
                 list_Choices.Clear();//очищаем лист ответов. (Для загрузки ответов на следующий вопрос)
             }
@@ -428,12 +431,10 @@ namespace LearnIT.SecondaryForms
                 BorderStyle = BorderStyle.None,
                 Multiline = true
             };
-            
 
             Controls.Add(txt);
-
-           
         }
-        #endregion
+
+        #endregion рабочие методы
     }
 }

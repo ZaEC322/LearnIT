@@ -2,26 +2,27 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
-using System.IO;
-using System.Xml;
 using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace LearnIT.SecondaryForms
 {
     public partial class FormSettings : Form
     {
         #region Переменные
-        DataSet set; //датасет для работы с данными
-        int LastCID = 0; //нужен для добавления ответов к последнему ответу.
-        int LastQID = 0; //нужен для добавления ответов к последнему вопросу.
-        int rowindx = 0; //для перемещения фокуса в гриде с вопросами.
-        int SelectedID = 1; //Выбраный ID 
-        OpenFileDialog OFD = new OpenFileDialog(); //окно выбора файла
-        SqlCommand cmd;//для комманд
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
 
-        #endregion
+        private DataSet set; //датасет для работы с данными
+        private int LastCID = 0; //нужен для добавления ответов к последнему ответу.
+        private int LastQID = 0; //нужен для добавления ответов к последнему вопросу.
+        private int rowindx = 0; //для перемещения фокуса в гриде с вопросами.
+        private int SelectedID = 1; //Выбраный ID
+        private OpenFileDialog OFD = new OpenFileDialog(); //окно выбора файла
+        private SqlCommand cmd;//для комманд
+        private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
+
+        #endregion Переменные
 
         public FormSettings()
         {
@@ -70,7 +71,6 @@ namespace LearnIT.SecondaryForms
                 IsBalloon = true
             };
             toolTip.SetToolTip(controlForToolTip, toolTipText);
-
         }
 
         /// <summary>
@@ -78,14 +78,13 @@ namespace LearnIT.SecondaryForms
         /// </summary>
         private void SetGridsAppearence()
         {
-
             dataGridView_Questions.Columns[0].ReadOnly = true; //чтобы нельзя было менять id
             dataGridView_Choices.Columns[0].Visible = false;
             dataGridView_Choices.Columns[1].Visible = false;
-            
+
             dataGridView_Questions.Columns[0].Width = 60;
             dataGridView_Choices.Columns[3].Width = 100;
-       
+
             dataGridView_Questions.Columns[0].HeaderText = "ID";
             dataGridView_Questions.Columns[1].HeaderText = "Вопрос";
 
@@ -103,7 +102,6 @@ namespace LearnIT.SecondaryForms
         /// <returns></returns>
         public DataTable FillDataTable(string table)
         {
-
             string query = "SELECT * FROM " + table;
             con.Open();
             SqlCommand cmd = new SqlCommand(query, con);
@@ -116,7 +114,8 @@ namespace LearnIT.SecondaryForms
         }
 
         /// <summary>
-        /// Выводит данные из таблицы Questions и по внешнему ключу выводит ответы к вопросу из таблицы Choices.
+        /// Выводит данные из таблицы Questions и по внешнему ключу выводит ответы к вопросу из
+        /// таблицы Choices.
         /// </summary>
         private void DisplayData()
         {
@@ -124,12 +123,12 @@ namespace LearnIT.SecondaryForms
             DataTable QuestionsTable = FillDataTable("Questions");
             DataTable ChoicesTable = FillDataTable("Choices");
             //DataTable CurrentName = fillDataTable("CurrentName");
-            
+
             QuestionsTable.TableName = "Questions";
             ChoicesTable.TableName = "Choices";
             set.Tables.Add(QuestionsTable);
             set.Tables.Add(ChoicesTable);
-           // set.Tables.Add(CurrentName);
+            // set.Tables.Add(CurrentName);
 
             set.Relations.Add("QCRealations", QuestionsTable.Columns["Question_ID"], ChoicesTable.Columns["FK_Question_ID"]);
 
@@ -141,7 +140,7 @@ namespace LearnIT.SecondaryForms
 
             dataGridView_Questions.DataSource = masterBinding;
             dataGridView_Choices.DataSource = masterBinding;
-            
+
             dataGridView_Choices.DataMember = "QCRealations";
 
             SetGridsAppearence();
@@ -150,7 +149,7 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// выбирает самое большое id, оно же и последнее. Нужно для корректного перемещения выделения
         /// </summary>
-        /// <param name="i"> 0 - присвоит lastQID И CID как 0. 1 - сделать запрос MAX в базу</param>
+        /// <param name="i">0 - присвоит lastQID И CID как 0. 1 - сделать запрос MAX в базу</param>
         private void GetLastIDFromQC(int i)
         {
             if (i == 0)
@@ -168,7 +167,7 @@ namespace LearnIT.SecondaryForms
                 cmd = new SqlCommand("select MAX(Choice_ID) FROM Choices", con);
                 LastCID = (int)cmd.ExecuteScalar();
             }
-            catch (Exception){}
+            catch (Exception) { }
             con.Close();
         }
 
@@ -220,11 +219,12 @@ namespace LearnIT.SecondaryForms
             }
         }
 
-        #endregion
+        #endregion Рабочие методы
 
         #region Кнопки
-        
+
         #region CRUD для работы с базой в проге
+
         /// <summary>
         /// Вставляет пустую запись с айди последннее+1
         /// </summary>
@@ -233,16 +233,16 @@ namespace LearnIT.SecondaryForms
         private void Button_Insert_Click(object sender, EventArgs e)
         {
             UpdateThis();
-            GetLastIDFromQC(1);   
+            GetLastIDFromQC(1);
             cmd = new SqlCommand("insert into Questions(Question_ID,Question_Text) values(@Qid,@text)", con);
             con.Open();
-            cmd.Parameters.AddWithValue("@Qid", LastQID+1);
+            cmd.Parameters.AddWithValue("@Qid", LastQID + 1);
             cmd.Parameters.AddWithValue("@text", "");
             cmd.ExecuteNonQuery();
             con.Close();
 
             GetLastIDFromQC(1);
-            
+
             cmd = new SqlCommand("insert into Choices(Choice_ID,FK_Question_ID,Choice_Text,is_Correct) values(@Cid,@Qid,@Ctext,@IsCor)", con);
             con.Open();
 
@@ -260,16 +260,16 @@ namespace LearnIT.SecondaryForms
 
                 cmd.ExecuteNonQuery();
             }
-           
+
             con.Close();
 
             DisplayData();
 
             rowindx = dataGridView_Questions.Rows.Count - 1; //количество строк минус 1 потому-что индексы строк нач. с 0. а кол-во с 1.
             dataGridView_Questions.Rows[rowindx].Cells[1].Selected = true; // выбераем её
-            SelectedID = (int)dataGridView_Questions.Rows[rowindx].Cells[0].Value; //селектедайди присваиваем значение из последней добавленной 
+            SelectedID = (int)dataGridView_Questions.Rows[rowindx].Cells[0].Value; //селектедайди присваиваем значение из последней добавленной
         }
-        
+
         /// <summary>
         /// Удаляет вопрос и каскадом удаляет ответы к нему
         /// </summary>
@@ -302,13 +302,13 @@ namespace LearnIT.SecondaryForms
                 cmd.ExecuteNonQuery();
                 con.Close();
                 UpdateThis();
-                DisplayData();     
+                DisplayData();
 
-                if(rowindx != 0)
+                if (rowindx != 0)
                     rowindx -= 1;
 
                 dataGridView_Questions.Rows[rowindx].Cells[1].Selected = true;//выделяем пред. запись
-                SelectedID = (int)dataGridView_Questions.Rows[rowindx].Cells[0].Value;//селектедайди присваиваем значение из пред. записи 
+                SelectedID = (int)dataGridView_Questions.Rows[rowindx].Cells[0].Value;//селектедайди присваиваем значение из пред. записи
 
                 GetLastIDFromQC(1);
             }
@@ -316,9 +316,10 @@ namespace LearnIT.SecondaryForms
                 MessageBox.Show("Выберите запись для удаления");
         }
 
-        #endregion
+        #endregion CRUD для работы с базой в проге
 
         #region Сохранение и загрузка xml
+
         /// <summary>
         /// Сохранить текущую базу в xml файл
         /// </summary>
@@ -327,11 +328,11 @@ namespace LearnIT.SecondaryForms
         private void Button_SaveThisDBToXML_Click(object sender, EventArgs e)
         {
             if (textBox_dbname.Text == "")
-            { 
+            {
                 return;
-            } 
+            }
 
-            DialogResult dialogResult = MessageBox.Show("Желаете сохранить эту базу с именем \"" + textBox_dbname.Text + 
+            DialogResult dialogResult = MessageBox.Show("Желаете сохранить эту базу с именем \"" + textBox_dbname.Text +
                 "\"?", "Внимание!", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -345,7 +346,7 @@ namespace LearnIT.SecondaryForms
                     if (dialogResult2 == DialogResult.Yes)
                     {
                         set.DataSetName = textBox_dbname.Text;
-                       // setPackName();
+                        // setPackName();
                         set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                         MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Обновлён");
                         return;
@@ -356,7 +357,7 @@ namespace LearnIT.SecondaryForms
                 else
                 {
                     set.DataSetName = textBox_dbname.Text;
-                  //  setPackName();
+                    // setPackName();
                     set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                     MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Создан");
                     return;
@@ -373,13 +374,14 @@ namespace LearnIT.SecondaryForms
         private void Button_LoadChosenXML_Click(object sender, EventArgs e)
         {
             #region проверки
+
             if (textBox_dbname.Text == "")
             {
                 return;
             }
 
             string errorText = "";
-            DialogResult dialogResult = MessageBox.Show("Данное действие удалит текущую базу из памяти программы и загрузит выбранную базу из папки UserPacks."+
+            DialogResult dialogResult = MessageBox.Show("Данное действие удалит текущую базу из памяти программы и загрузит выбранную базу из папки UserPacks." +
                 " \nЕсли вы не сохранили текущую базу то она пропадёт.\nЖелаете продолжить?", "ВНИМАНИЕ!", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -392,8 +394,8 @@ namespace LearnIT.SecondaryForms
 
             try
             {
-                ds.ReadXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");//читаем файл xml 
-                //проверяем на некоторые ошибки xml. В целом можно не проверять, так как в инструкции к программе будет написано не трогать xml файлы. 
+                ds.ReadXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");//читаем файл xml
+                //проверяем на некоторые ошибки xml. В целом можно не проверять, так как в инструкции к программе будет написано не трогать xml файлы.
                 //а ошибки могут возникнуть только в случае если пользователь сам будет пытаться изменить эти файлы. На всякий случай оставлю.
                 if (ds.Tables.Count < 2) errorText += "Не хватает таблиц. Должно быть две";
 
@@ -419,11 +421,11 @@ namespace LearnIT.SecondaryForms
             {
                 errorText += textBox_dbname.Text + " Не найден";
             }
-            catch(XmlException)
+            catch (XmlException)
             {
                 errorText += textBox_dbname.Text + " Файл повреждён либо не являеться xml";
             }
-            catch(Exception)
+            catch (Exception)
             {
                 errorText += "Неизвестная ошибка.";
             }
@@ -432,9 +434,11 @@ namespace LearnIT.SecondaryForms
                 MessageBox.Show(errorText + "\nЗагрузка базы отменена. Проверьте выбраный файл, выберите другой или создайте новый.", "Ошибка!");
                 return;
             }
-            #endregion
+
+            #endregion проверки
 
             #region очищаем бд перед загрузкой новых данных
+
             con.Open();
             cmd = new SqlCommand("ALTER TABLE Choices DROP CONSTRAINT FK_QuestionChoices", con);//Убираем внешний ключ для TRUNCATE
             cmd.ExecuteNonQuery();
@@ -443,7 +447,7 @@ namespace LearnIT.SecondaryForms
             cmd = new SqlCommand("TRUNCATE TABLE Choices", con);//очищает данные из таблицы Choices
             cmd.ExecuteNonQuery();
             ////////////////
-           // cmd = new SqlCommand("TRUNCATE TABLE CurrentName", con);//очищает данные из таблицы CurrentName
+            // cmd = new SqlCommand("TRUNCATE TABLE CurrentName", con);//очищает данные из таблицы CurrentName
             //cmd.ExecuteNonQuery();
             ////////////////
             cmd = new SqlCommand("ALTER TABLE Choices ADD CONSTRAINT FK_QuestionChoices FOREIGN KEY (FK_Question_ID)" +
@@ -452,9 +456,11 @@ namespace LearnIT.SecondaryForms
             con.Close();
             DisplayData(); //показываем пустую бд
             GetLastIDFromQC(0);//устанавливаем ластID как 0 для избежания ошибок
-            #endregion
+
+            #endregion очищаем бд перед загрузкой новых данных
 
             #region заполнение и вывод базы
+
             con.Open();
             //dt = ds.Tables[0]; //записываем таблицу Questions в дататейбл. Она всегда первая.
             // инсерт всех строк таблицы Questions в бд
@@ -467,7 +473,7 @@ namespace LearnIT.SecondaryForms
             }
             con.Close();
 
-          //  dt = ds.Tables[1];//записываем таблицу Choices в дататейбл. Она всегда вторая.
+            // dt = ds.Tables[1];//записываем таблицу Choices в дататейбл. Она всегда вторая.
 
             con.Open();
             // инсерт всех строк таблицы Choices
@@ -485,15 +491,15 @@ namespace LearnIT.SecondaryForms
             GetLastIDFromQC(1);
             dataGridView_Questions.Rows[0].Cells[1].Selected = true; //выделяем первую запись на гриде
 
+            ///////////////
 
             ///////////////
-            
-            ///////////////
-            #endregion
+
+            #endregion заполнение и вывод базы
         }
 
         /// <summary>
-        /// Выбираем xml файл с данными для загрузки в бд. 
+        /// Выбираем xml файл с данными для загрузки в бд.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -507,9 +513,9 @@ namespace LearnIT.SecondaryForms
                 textBox_dbname.Text = Path.GetFileNameWithoutExtension(OFD.SafeFileName); //записывает название файла в каталоге
         }
 
-        #endregion
+        #endregion Сохранение и загрузка xml
 
-        #endregion
+        #endregion Кнопки
 
         #region События
 
@@ -528,7 +534,8 @@ namespace LearnIT.SecondaryForms
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e) => UpdateThis();
 
         /// <summary>
-        /// Записывает id выбраной записи в SelectedID для удаления. Записывает индекс выбраной строки для перемещения фокуса.
+        /// Записывает id выбраной записи в SelectedID для удаления. Записывает индекс выбраной
+        /// строки для перемещения фокуса.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -570,7 +577,8 @@ namespace LearnIT.SecondaryForms
         }
 
         /// <summary>
-        /// Если пользователь решит схитрить и попытаться вставить запрещённый символ с помощью ctrl+v то стираем строку
+        /// Если пользователь решит схитрить и попытаться вставить запрещённый символ с помощью
+        /// ctrl+v то стираем строку
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -590,8 +598,6 @@ namespace LearnIT.SecondaryForms
             }
         }
 
-        #endregion
-
+        #endregion События
     }
 }
-   
