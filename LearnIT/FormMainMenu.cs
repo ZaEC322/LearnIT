@@ -107,7 +107,7 @@ namespace LearnIT
         /// <summary>
         /// Открывает дочернюю форму внутри мейнформы.
         /// </summary>
-        /// <param name="childForm"></param>
+        /// <param name="childForm">Конструктор формы которую нужно открыть</param>
         private void OpenChildForm(Form childForm)
         {
             //Закрывает открытую форму если такая есть
