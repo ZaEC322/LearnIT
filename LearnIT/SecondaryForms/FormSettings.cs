@@ -37,26 +37,28 @@ namespace LearnIT.SecondaryForms
 
         #region Рабочие методы
 
-        private string PackName
-        {
-            get
-            {
-                string temp = "";
-                using (XmlReader reader = XmlReader.Create("UserPacks\\" + textBox_dbname.Text + ".LearnITPack"))
-                {
-                    while (reader.Read())
-                    {
-                        // first element is the root element
-                        if (reader.NodeType == XmlNodeType.Element)
-                        {
-                            temp = reader.Name;
-                            break;
-                        }
-                    }
-                }
-                return temp;
-            }
-        }
+        /* private string PackName
+         {
+             get
+             {
+                 string temp = "";
+
+                 using (XmlReader reader = XmlReader.Create("UserPacks\\" + textBox_dbname.Text + ".LearnITPack"))
+                 {
+                     while (reader.Read())
+                     {
+                         // first element is the root element
+                         if (reader.NodeType == XmlNodeType.Element)
+                         {
+                             temp = reader.Name;
+                             break;
+                         }
+                     }
+                 }
+
+                 return temp;
+             }
+         }*/
 
         /// <summary>
         /// всплывающие подсказки
