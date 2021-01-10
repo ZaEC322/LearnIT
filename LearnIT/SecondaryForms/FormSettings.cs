@@ -37,27 +37,25 @@ namespace LearnIT.SecondaryForms
 
         #region Рабочие методы
 
-        /* private string PackName
+        private void SetPackName(string name)
+        {
+            /* cmd = new SqlCommand("UPDATE Current SET PackName = @PackName WHERE ID = 1", con);
+             con.Open();
+             cmd.Parameters.AddWithValue("@PackName", name);
+             cmd.ExecuteNonQuery();
+             con.Close();*/
+        }
+
+        /* private string GetPackName()
          {
-             get
-             {
-                 string temp = "";
+             string temp;
+             cmd = new SqlCommand("Select PackName from Current where ID = 1", con);
+             con.Open();
 
-                 using (XmlReader reader = XmlReader.Create("UserPacks\\" + textBox_dbname.Text + ".LearnITPack"))
-                 {
-                     while (reader.Read())
-                     {
-                         // first element is the root element
-                         if (reader.NodeType == XmlNodeType.Element)
-                         {
-                             temp = reader.Name;
-                             break;
-                         }
-                     }
-                 }
-
-                 return temp;
-             }
+             temp = (string)cmd.ExecuteScalar();
+             con.Close();
+             MessageBox.Show(temp);
+             return temp;
          }*/
 
         /// <summary>
@@ -601,5 +599,10 @@ namespace LearnIT.SecondaryForms
         }
 
         #endregion События
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GetPackName();
+        }
     }
 }
