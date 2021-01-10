@@ -141,13 +141,6 @@
     <None Include="Properties\LogoWhite.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBQnA.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DBQnA_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DBQnA.mdf</DependentUpon>
-    </Content>
     <None Include="Properties\IT_256x256.ico" />
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>

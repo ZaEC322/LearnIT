@@ -39,24 +39,28 @@ namespace LearnIT.SecondaryForms
 
         private void SetPackName(string name)
         {
-            /* cmd = new SqlCommand("UPDATE Current SET PackName = @PackName WHERE ID = 1", con);
-             con.Open();
-             cmd.Parameters.AddWithValue("@PackName", name);
-             cmd.ExecuteNonQuery();
-             con.Close();*/
+            cmd = new SqlCommand("UPDATE CurrentPackInfo SET PackName = @PackName WHERE Id = @id", con);
+            con.Open();
+            cmd.Parameters.AddWithValue("@PackName", name);
+            cmd.Parameters.AddWithValue("@id", 1);
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            // textBox_CurrentDBName.Text = GetPackName();
         }
 
-        /* private string GetPackName()
-         {
-             string temp;
-             cmd = new SqlCommand("Select PackName from Current where ID = 1", con);
-             con.Open();
+        private string GetPackName()
+        {
+            string temp;
+            cmd = new SqlCommand("Select PackName from CurrentPackInfo", con);
+            con.Open();
 
-             temp = (string)cmd.ExecuteScalar();
-             con.Close();
-             MessageBox.Show(temp);
-             return temp;
-         }*/
+            temp = (string)cmd.ExecuteScalar();
+            con.Close();
+            textBox_CurrentDBName.Text = temp;
+            // MessageBox.Show(temp);
+            return temp;
+        }
 
         /// <summary>
         /// всплывающие подсказки
@@ -346,7 +350,8 @@ namespace LearnIT.SecondaryForms
                     if (dialogResult2 == DialogResult.Yes)
                     {
                         set.DataSetName = textBox_dbname.Text;
-                        // setPackName();
+                        SetPackName(set.DataSetName);
+                        GetPackName();
                         set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                         MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Обновлён");
                         return;
@@ -357,7 +362,8 @@ namespace LearnIT.SecondaryForms
                 else
                 {
                     set.DataSetName = textBox_dbname.Text;
-                    // setPackName();
+                    SetPackName(set.DataSetName);
+                    GetPackName();
                     set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                     MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Создан");
                     return;
@@ -487,6 +493,8 @@ namespace LearnIT.SecondaryForms
                 cmd.ExecuteNonQuery();
             }
             con.Close();
+            SetPackName(textBox_dbname.Text);
+            GetPackName();
             DisplayData();
             GetLastIDFromQC(1);
             dataGridView_Questions.Rows[0].Cells[1].Selected = true; //выделяем первую запись на гриде
@@ -524,7 +532,11 @@ namespace LearnIT.SecondaryForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FormSettings_Load(object sender, EventArgs e) => DisplayData();
+        private void FormSettings_Load(object sender, EventArgs e)
+        {
+            DisplayData();
+            GetPackName();
+        }
 
         /// <summary>
         /// при закрытии формы всегда сейвим изменения.
@@ -599,10 +611,5 @@ namespace LearnIT.SecondaryForms
         }
 
         #endregion События
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            GetPackName();
-        }
     }
 }
