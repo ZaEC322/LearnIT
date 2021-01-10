@@ -582,9 +582,6 @@ namespace LearnIT.SecondaryForms
             if (e.KeyChar == '>') e.Handled = true;
             if (e.KeyChar == '|') e.Handled = true;
             if (e.KeyChar == '.') e.Handled = true;
-            if (e.KeyChar == '@') e.Handled = true;
-            if (e.KeyChar == '%') e.Handled = true;
-            if (e.KeyChar == '#') e.Handled = true;
             if (e.KeyChar == (Char)Keys.Space) e.Handled = true;
         }
 
@@ -596,7 +593,7 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void TextBox_dbname_TextChanged(object sender, EventArgs e)
         {
-            if (textBox_dbname.Text.IndexOfAny(new char[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.', '@', '%', '#', (Char)Keys.Space }) != -1)
+            if (textBox_dbname.Text.IndexOfAny(new char[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.', (Char)Keys.Space }) != -1)
             {
                 if (textBox_dbname.Text.Length > 1)
                 {
