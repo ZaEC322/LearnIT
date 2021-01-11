@@ -36,10 +36,10 @@
             this.label_Timer = new System.Windows.Forms.Label();
             this.PlayButton = new FontAwesome.Sharp.IconButton();
             this.tablePanel_Choices = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_Answer1 = new System.Windows.Forms.TextBox();
-            this.btn_Answer2 = new System.Windows.Forms.TextBox();
-            this.btn_Answer3 = new System.Windows.Forms.TextBox();
             this.btn_Answer4 = new System.Windows.Forms.TextBox();
+            this.btn_Answer3 = new System.Windows.Forms.TextBox();
+            this.btn_Answer2 = new System.Windows.Forms.TextBox();
+            this.btn_Answer1 = new System.Windows.Forms.TextBox();
             this.panelQuestion.SuspendLayout();
             this.tablePanel_Choices.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +73,7 @@
             this.panelQuestion.Name = "panelQuestion";
             this.panelQuestion.Size = new System.Drawing.Size(1284, 722);
             this.panelQuestion.TabIndex = 9;
+            this.panelQuestion.Visible = false;
             // 
             // button_Next
             // 
@@ -139,44 +140,26 @@
             this.tablePanel_Choices.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tablePanel_Choices.Size = new System.Drawing.Size(1284, 369);
             this.tablePanel_Choices.TabIndex = 12;
+            this.tablePanel_Choices.Visible = false;
             // 
-            // btn_Answer1
+            // btn_Answer4
             // 
-            this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.btn_Answer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.btn_Answer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_Answer1.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btn_Answer1.Location = new System.Drawing.Point(3, 3);
-            this.btn_Answer1.Multiline = true;
-            this.btn_Answer1.Name = "btn_Answer1";
-            this.btn_Answer1.ReadOnly = true;
-            this.btn_Answer1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.btn_Answer1.Size = new System.Drawing.Size(505, 178);
-            this.btn_Answer1.TabIndex = 11;
-            this.btn_Answer1.Click += new System.EventHandler(this.Btn_Answer1_Click);
-            this.btn_Answer1.MouseEnter += new System.EventHandler(this.Btn_Answer1_MouseEnter);
-            this.btn_Answer1.MouseLeave += new System.EventHandler(this.Btn_Answer1_MouseLeave);
-            this.btn_Answer1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer1_MouseMove);
-            // 
-            // btn_Answer2
-            // 
-            this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.btn_Answer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.btn_Answer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_Answer2.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btn_Answer2.Location = new System.Drawing.Point(514, 3);
-            this.btn_Answer2.Multiline = true;
-            this.btn_Answer2.Name = "btn_Answer2";
-            this.btn_Answer2.ReadOnly = true;
-            this.btn_Answer2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.btn_Answer2.Size = new System.Drawing.Size(505, 178);
-            this.btn_Answer2.TabIndex = 12;
-            this.btn_Answer2.Click += new System.EventHandler(this.Btn_Answer2_Click);
-            this.btn_Answer2.MouseEnter += new System.EventHandler(this.Btn_Answer2_MouseEnter);
-            this.btn_Answer2.MouseLeave += new System.EventHandler(this.Btn_Answer2_MouseLeave);
-            this.btn_Answer2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer2_MouseMove);
+            this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.btn_Answer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer4.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btn_Answer4.Location = new System.Drawing.Point(514, 187);
+            this.btn_Answer4.Multiline = true;
+            this.btn_Answer4.Name = "btn_Answer4";
+            this.btn_Answer4.ReadOnly = true;
+            this.btn_Answer4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.btn_Answer4.Size = new System.Drawing.Size(505, 179);
+            this.btn_Answer4.TabIndex = 14;
+            this.btn_Answer4.Click += new System.EventHandler(this.Btn_Answer4_Click);
+            this.btn_Answer4.MouseEnter += new System.EventHandler(this.Btn_Answer4_MouseEnter);
+            this.btn_Answer4.MouseLeave += new System.EventHandler(this.Btn_Answer4_MouseLeave);
+            this.btn_Answer4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer4_MouseMove);
             // 
             // btn_Answer3
             // 
@@ -197,24 +180,43 @@
             this.btn_Answer3.MouseLeave += new System.EventHandler(this.Btn_Answer3_MouseLeave);
             this.btn_Answer3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer3_MouseMove);
             // 
-            // btn_Answer4
+            // btn_Answer2
             // 
-            this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.btn_Answer4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.btn_Answer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_Answer4.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btn_Answer4.Location = new System.Drawing.Point(514, 187);
-            this.btn_Answer4.Multiline = true;
-            this.btn_Answer4.Name = "btn_Answer4";
-            this.btn_Answer4.ReadOnly = true;
-            this.btn_Answer4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.btn_Answer4.Size = new System.Drawing.Size(505, 179);
-            this.btn_Answer4.TabIndex = 14;
-            this.btn_Answer4.Click += new System.EventHandler(this.Btn_Answer4_Click);
-            this.btn_Answer4.MouseEnter += new System.EventHandler(this.Btn_Answer4_MouseEnter);
-            this.btn_Answer4.MouseLeave += new System.EventHandler(this.Btn_Answer4_MouseLeave);
-            this.btn_Answer4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer4_MouseMove);
+            this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.btn_Answer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer2.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btn_Answer2.Location = new System.Drawing.Point(514, 3);
+            this.btn_Answer2.Multiline = true;
+            this.btn_Answer2.Name = "btn_Answer2";
+            this.btn_Answer2.ReadOnly = true;
+            this.btn_Answer2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.btn_Answer2.Size = new System.Drawing.Size(505, 178);
+            this.btn_Answer2.TabIndex = 12;
+            this.btn_Answer2.Click += new System.EventHandler(this.Btn_Answer2_Click);
+            this.btn_Answer2.MouseEnter += new System.EventHandler(this.Btn_Answer2_MouseEnter);
+            this.btn_Answer2.MouseLeave += new System.EventHandler(this.Btn_Answer2_MouseLeave);
+            this.btn_Answer2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer2_MouseMove);
+            // 
+            // btn_Answer1
+            // 
+            this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.btn_Answer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btn_Answer1.Location = new System.Drawing.Point(3, 3);
+            this.btn_Answer1.Multiline = true;
+            this.btn_Answer1.Name = "btn_Answer1";
+            this.btn_Answer1.ReadOnly = true;
+            this.btn_Answer1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.btn_Answer1.Size = new System.Drawing.Size(505, 178);
+            this.btn_Answer1.TabIndex = 11;
+            this.btn_Answer1.Click += new System.EventHandler(this.Btn_Answer1_Click);
+            this.btn_Answer1.MouseEnter += new System.EventHandler(this.Btn_Answer1_MouseEnter);
+            this.btn_Answer1.MouseLeave += new System.EventHandler(this.Btn_Answer1_MouseLeave);
+            this.btn_Answer1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer1_MouseMove);
             // 
             // FormGame
             // 

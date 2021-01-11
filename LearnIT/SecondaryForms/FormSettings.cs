@@ -11,6 +11,34 @@ namespace LearnIT.SecondaryForms
 {
     public partial class FormSettings : Form
     {
+        #region оптимизация отображения всего
+
+        private const int WM_HSCROLL = 0x114;
+        private const int WM_VSCROLL = 0x115;
+
+        protected override void WndProc(ref Message m)
+        {
+            if ((m.Msg == WM_HSCROLL || m.Msg == WM_VSCROLL)
+            && (((int)m.WParam & 0xFFFF) == 5))
+            {
+                // Change SB_THUMBTRACK to SB_THUMBPOSITION
+                m.WParam = (IntPtr)(((int)m.WParam & ~0xFFFF) | 4);
+            }
+            base.WndProc(ref m);
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
+        #endregion оптимизация отображения всего
+
         #region Переменные
 
         private DataSet set; //датасет для работы с данными
@@ -27,6 +55,7 @@ namespace LearnIT.SecondaryForms
         public FormSettings()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
             CreateToolTip(a, "Новый пустой вопрос в конец списка");
             CreateToolTip(button_ChooseXML, "Открыть окно для выбора файла базы");
             CreateToolTip(button_LoadChosenXML, "Загрузить выбранный файл в программу");
@@ -468,7 +497,6 @@ namespace LearnIT.SecondaryForms
             #region заполнение и вывод базы
 
             con.Open();
-            //dt = ds.Tables[0]; //записываем таблицу Questions в дататейбл. Она всегда первая.
             // инсерт всех строк таблицы Questions в бд
             foreach (DataRow row in /*dt.Rows*/ ds.Tables[0].Rows)
             {
@@ -479,11 +507,9 @@ namespace LearnIT.SecondaryForms
             }
             con.Close();
 
-            // dt = ds.Tables[1];//записываем таблицу Choices в дататейбл. Она всегда вторая.
-
             con.Open();
             // инсерт всех строк таблицы Choices
-            foreach (DataRow row in /*dt.Rows*/ds.Tables[1].Rows)
+            foreach (DataRow row in ds.Tables[1].Rows)
             {
                 cmd = new SqlCommand("insert into Choices(Choice_ID,FK_Question_ID,Choice_Text,is_Correct) values(@Cid,@Qid,@Ctext,@IsCor)", con);
                 cmd.Parameters.AddWithValue("@Cid", row.Field<string>("Choice_ID"));
@@ -498,10 +524,6 @@ namespace LearnIT.SecondaryForms
             DisplayData();
             GetLastIDFromQC(1);
             dataGridView_Questions.Rows[0].Cells[1].Selected = true; //выделяем первую запись на гриде
-
-            ///////////////
-
-            ///////////////
 
             #endregion заполнение и вывод базы
         }

@@ -10,6 +10,34 @@ namespace LearnIT.SecondaryForms
 {
     public partial class FormGame : Form
     {
+        #region оптимизация отображения всего
+
+        private const int WM_HSCROLL = 0x114;
+        private const int WM_VSCROLL = 0x115;
+
+        protected override void WndProc(ref Message m)
+        {
+            if ((m.Msg == WM_HSCROLL || m.Msg == WM_VSCROLL)
+            && (((int)m.WParam & 0xFFFF) == 5))
+            {
+                // Change SB_THUMBTRACK to SB_THUMBPOSITION
+                m.WParam = (IntPtr)(((int)m.WParam & ~0xFFFF) | 4);
+            }
+            base.WndProc(ref m);
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
+        #endregion оптимизация отображения всего
+
         #region поля
 
         private List<Question> list_Questions = new List<Question>();//создаём листы для хранения объектов класса question которые заполняем из бд
@@ -31,6 +59,8 @@ namespace LearnIT.SecondaryForms
         public FormGame()
         {
             InitializeComponent();
+
+            this.DoubleBuffered = true;
         }
 
         #region события
@@ -247,6 +277,7 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void FormGame_Load(object sender, EventArgs e)//при загрузке окна будет высвечен рандомный вопрос
         {
+            PlayButton.BringToFront();
             list_Questions.Clear();//сбрасываем при каждом открытии окна.
             list_Choices.Clear();//сбрасываем при каждом открытии окна.
             timer1.Stop();//останавливаем таймер чтобы он стартанул с запуском игры
@@ -261,7 +292,6 @@ namespace LearnIT.SecondaryForms
 
             panelQuestion.Hide();
             tablePanel_Choices.Hide();
-            PlayButton.BringToFront();
         }
 
         /// <summary>
