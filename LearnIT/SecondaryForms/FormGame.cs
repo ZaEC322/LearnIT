@@ -1,7 +1,9 @@
 ﻿using LearnIT.ClassesAndDB;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,20 +13,6 @@ namespace LearnIT.SecondaryForms
     public partial class FormGame : Form
     {
         #region оптимизация отображения всего
-
-        private const int WM_HSCROLL = 0x114;
-        private const int WM_VSCROLL = 0x115;
-
-        protected override void WndProc(ref Message m)
-        {
-            if ((m.Msg == WM_HSCROLL || m.Msg == WM_VSCROLL)
-            && (((int)m.WParam & 0xFFFF) == 5))
-            {
-                // Change SB_THUMBTRACK to SB_THUMBPOSITION
-                m.WParam = (IntPtr)(((int)m.WParam & ~0xFFFF) | 4);
-            }
-            base.WndProc(ref m);
-        }
 
         protected override CreateParams CreateParams
         {
@@ -40,6 +28,8 @@ namespace LearnIT.SecondaryForms
 
         #region поля
 
+        private int timeLimit;
+
         private List<Question> list_Questions = new List<Question>();//создаём листы для хранения объектов класса question которые заполняем из бд
         private List<Choice> list_Choices = new List<Choice>();//после заполняем ответы
         private Random rand = new Random();//объект класса рандом.
@@ -51,6 +41,8 @@ namespace LearnIT.SecondaryForms
         private bool result1; //Для проверки заполнился ли лист из бд. Если нет то false.
         private bool[] Is_Correct = new bool[4]; //переменные для проверки правильности ответа
         private bool Is_Answered;//если на текущий вопрос дан ответ == true, если не дан то false
+        private SqlCommand cmd;
+        private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
 
         internal ConnectDB Dbb { get; set; } = new ConnectDB();
 
@@ -292,6 +284,8 @@ namespace LearnIT.SecondaryForms
 
             panelQuestion.Hide();
             tablePanel_Choices.Hide();
+
+            GetPackTime();
         }
 
         /// <summary>
@@ -301,13 +295,26 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            if (_ticks == timeLimit)
+            {
+                GameEnd();
+            }
             _ticks++;
-            label_Timer.Text = _ticks.ToString() + " сек.";
+            label_Timer.Text = _ticks.ToString() + "\\" + timeLimit + " сек.";
         }
 
         #endregion события
 
         #region рабочие методы
+
+        private void GetPackTime()
+        {
+            cmd = new SqlCommand("Select TimeForGame from CurrentPackInfo", con);
+            con.Open();
+
+            timeLimit = (int)cmd.ExecuteScalar();
+            con.Close();
+        }
 
         /// <summary>
         /// В зависимости от правильсности выбраного ответа возвращаем тру или фолс
@@ -355,7 +362,7 @@ namespace LearnIT.SecondaryForms
                 {
                     temp = rand.Next(list_Questions.Count);//записываем индекс рандомно выбраный из листа. от 0 до числа записей в листе
                                                            //потом нам этот темп нужен будет для удаления. По этому сначала присваиваем в темп.
-                    ClassesAndDB.Question Q = list_Questions[temp];//записываем в объект класса question вопрос по рандомному temp
+                    Question Q = list_Questions[temp];//записываем в объект класса question вопрос по рандомному temp
                     textBox_Question.Text = Q.QuestionText.Value;//вывод вопроса в текстбокс
                     current_id = Q.ID.Value; //!записываем id вопроса для поиска по внешнему ключу в базе ответов!
                 }
@@ -374,7 +381,7 @@ namespace LearnIT.SecondaryForms
                 string[] AnswerTexts = new string[4];//для хранения текстового значения ответов на вопос
                 for (int i = 0; i < list_Choices.Count; i++) //заполняем массив ответами.
                 {
-                    ClassesAndDB.Choice C = list_Choices[i];
+                    Choice C = list_Choices[i];
                     AnswerTexts[i] = C.ChoiceText.Value;
                     Is_Correct[i] = C.is_Correct.Value;
                 }
@@ -391,21 +398,6 @@ namespace LearnIT.SecondaryForms
                 btn_Answer4.Text = AnswerTexts[3].ToString();
 
                 #region меняем расположение кнопок
-
-                /* Point[] points =
-                 {
-                        new Point(btn_Answer1.Location.X, btn_Answer1.Location.Y),
-                        new Point(btn_Answer2.Location.X, btn_Answer2.Location.Y),
-                        new Point(btn_Answer3.Location.X, btn_Answer3.Location.Y),
-                        new Point(btn_Answer4.Location.X, btn_Answer4.Location.Y)
-                 };
-
-                 Point[] MyRandomArray = points.OrderBy(x => rand.Next()).ToArray();//рандомизируем расположение кнопок
-
-                 btn_Answer1.Location = new Point(MyRandomArray[0].X, MyRandomArray[0].Y);
-                 btn_Answer2.Location = new Point(MyRandomArray[1].X, MyRandomArray[1].Y);
-                 btn_Answer3.Location = new Point(MyRandomArray[2].X, MyRandomArray[2].Y);
-                 btn_Answer4.Location = new Point(MyRandomArray[3].X, MyRandomArray[3].Y);*/
 
                 TableLayoutPanelCellPosition[] p =
                 {
@@ -452,7 +444,7 @@ namespace LearnIT.SecondaryForms
 
             TextBox txt = new TextBox()
             {
-                Text = "Вопросы закончились. Правильных ответов " + counter + " из " + questCount,
+                Text = "Вопросы закончились. Правильных ответов " + counter + " из " + questCount + "\r\nВремя: " + _ticks + "\\" + timeLimit + " сек.",
                 Dock = DockStyle.Fill,
                 Parent = this,
                 BackColor = Color.FromArgb(34, 33, 74),
@@ -463,6 +455,11 @@ namespace LearnIT.SecondaryForms
             };
 
             Controls.Add(txt);
+
+            /*
+             * Записывать в бд результат который потом выводить на мейнформе.
+             *
+            */
         }
 
         #endregion рабочие методы

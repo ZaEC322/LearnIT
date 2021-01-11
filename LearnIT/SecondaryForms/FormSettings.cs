@@ -13,20 +13,6 @@ namespace LearnIT.SecondaryForms
     {
         #region оптимизация отображения всего
 
-        private const int WM_HSCROLL = 0x114;
-        private const int WM_VSCROLL = 0x115;
-
-        protected override void WndProc(ref Message m)
-        {
-            if ((m.Msg == WM_HSCROLL || m.Msg == WM_VSCROLL)
-            && (((int)m.WParam & 0xFFFF) == 5))
-            {
-                // Change SB_THUMBTRACK to SB_THUMBPOSITION
-                m.WParam = (IntPtr)(((int)m.WParam & ~0xFFFF) | 4);
-            }
-            base.WndProc(ref m);
-        }
-
         protected override CreateParams CreateParams
         {
             get
@@ -41,9 +27,9 @@ namespace LearnIT.SecondaryForms
 
         #region Переменные
 
-        private DataSet set; //датасет для работы с данными
-        private int LastCID = 0; //нужен для добавления ответов к последнему ответу.
-        private int LastQID = 0; //нужен для добавления ответов к последнему вопросу.
+        private DataSet set; //для работы с данными
+        private int LastCID = 0; //Последний id в таблице ответов
+        private int LastQID = 0; //Последний id в таблице вопросов
         private int rowindx = 0; //для перемещения фокуса в гриде с вопросами.
         private int SelectedID = 1; //Выбраный ID
         private OpenFileDialog OFD = new OpenFileDialog(); //окно выбора файла
@@ -277,13 +263,12 @@ namespace LearnIT.SecondaryForms
             GetLastIDFromQC(1);
 
             cmd = new SqlCommand("insert into Choices(Choice_ID,FK_Question_ID,Choice_Text,is_Correct) values(@Cid,@Qid,@Ctext,@IsCor)", con);
-            con.Open();
 
             cmd.Parameters.Add("@Cid", SqlDbType.Int);
             cmd.Parameters.Add("@Qid", SqlDbType.Int);
             cmd.Parameters.Add("@Ctext", SqlDbType.NVarChar);
             cmd.Parameters.Add("@IsCor", SqlDbType.Bit);
-
+            con.Open();
             for (int i = 1; i < 5; i++)
             {
                 cmd.Parameters["@Cid"].Value = LastCID + i;
@@ -558,6 +543,7 @@ namespace LearnIT.SecondaryForms
         {
             DisplayData();
             GetPackName();
+            GetPackTime();
         }
 
         /// <summary>
@@ -630,5 +616,25 @@ namespace LearnIT.SecondaryForms
         }
 
         #endregion События
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("UPDATE CurrentPackInfo SET TimeForGame = @TimeForGame WHERE Id = @id", con);
+            con.Close();
+            con.Open();
+            cmd.Parameters.AddWithValue("@TimeForGame", (int)numericUpDown1.Value);
+            cmd.Parameters.AddWithValue("@id", 1);
+
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        private void GetPackTime()
+        {
+            cmd = new SqlCommand("Select TimeForGame from CurrentPackInfo", con);
+            con.Open();
+            numericUpDown1.Value = (int)cmd.ExecuteScalar();
+            con.Close();
+        }
     }
 }

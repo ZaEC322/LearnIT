@@ -96,7 +96,6 @@
             this.label_Timer.Name = "label_Timer";
             this.label_Timer.Size = new System.Drawing.Size(256, 185);
             this.label_Timer.TabIndex = 7;
-            this.label_Timer.Text = "0 сек.";
             this.label_Timer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PlayButton
@@ -144,7 +143,7 @@
             // 
             // btn_Answer4
             // 
-            this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -163,7 +162,7 @@
             // 
             // btn_Answer3
             // 
-            this.btn_Answer3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -182,7 +181,7 @@
             // 
             // btn_Answer2
             // 
-            this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -201,7 +200,7 @@
             // 
             // btn_Answer1
             // 
-            this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
