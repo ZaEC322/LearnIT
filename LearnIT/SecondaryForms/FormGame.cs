@@ -30,21 +30,77 @@ namespace LearnIT.SecondaryForms
 
         private int timeLimit;
 
-        private List<Question> list_Questions = new List<Question>();//создаём листы для хранения объектов класса question которые заполняем из бд
-        private List<Choice> list_Choices = new List<Choice>();//после заполняем ответы
-        private Random rand = new Random();//объект класса рандом.
-        private int current_id;// id вопроса для выполнения процедуры по поиску ответов в базе.
-        private int counter;//количество правильно отвеченых вопросов
-        private int temp; // для хранинения рандомно выбраного индекса текущего вопроса.
-        private int questCount;//изначальное общее кол-во вопросов.
-        private int _ticks;//для счёта времени
-        private bool result1; //Для проверки заполнился ли лист из бд. Если нет то false.
-        private bool[] Is_Correct = new bool[4]; //переменные для проверки правильности ответа
-        private bool Is_Answered;//если на текущий вопрос дан ответ == true, если не дан то false
+        /// <summary>
+        /// создаём листы для хранения объектов класса question которые заполняем из бд
+        /// </summary>
+        private List<Question> list_Questions = new List<Question>();
+
+        /// <summary>
+        /// после заполняем ответы
+        /// </summary>
+        private List<Choice> list_Choices = new List<Choice>();
+
+        /// <summary>
+        /// объект класса рандом.
+        /// </summary>
+        private Random rand = new Random();
+
+        /// <summary>
+        /// id вопроса для выполнения процедуры по поиску ответов в базе.
+        /// </summary>
+        private int current_id;
+
+        /// <summary>
+        /// количество правильно отвеченых вопросов
+        /// </summary>
+        private int counter;
+
+        /// <summary>
+        /// для хранинения рандомно выбраного индекса текущего вопроса.
+        /// </summary>
+        private int temp;
+
+        /// <summary>
+        /// изначальное общее кол-во вопросов.
+        /// </summary>
+        private int questCount;
+
+        /// <summary>
+        /// для счёта времени
+        /// </summary>
+        private int _ticks;
+
+        /// <summary>
+        /// Для проверки заполнился ли лист из бд. Если нет то false.
+        /// </summary>
+        private bool result1;
+
+        /// <summary>
+        /// Для проверки заполнился ли лист из бд. Если нет то false.
+        /// </summary>
+        private bool result2;
+
+        /// <summary>
+        /// переменные для проверки правильности ответа
+        /// </summary>
+        private bool[] Is_Correct = new bool[4];
+
+        /// <summary>
+        /// если на текущий вопрос дан ответ == true, если не дан то false
+        /// </summary>
+        private bool Is_Answered;
+
+        /// <summary>
+        /// для комманд
+        /// </summary>
         private SqlCommand cmd;
+
+        /// <summary>
+        /// подключение
+        /// </summary>
         private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
 
-        internal ConnectDB Dbb { get; set; } = new ConnectDB();
+        // internal ConnectDB Dbb { get; set; } = new ConnectDB();
 
         #endregion поля
 
@@ -275,7 +331,7 @@ namespace LearnIT.SecondaryForms
             timer1.Stop();//останавливаем таймер чтобы он стартанул с запуском игры
             _ticks = 0;//обнуляем таймер
             counter = 0; //сбрасываем при каждой загрузке окна.
-            result1 = Dbb.Init_ListQuestions(list_Questions);//заполняем лист вопросов
+            result1 = Init_ListQuestions(list_Questions);//заполняем лист вопросов
 
             if (list_Questions.Count == 0)
                 GameEnd();
@@ -307,6 +363,117 @@ namespace LearnIT.SecondaryForms
 
         #region рабочие методы
 
+        /// <summary>
+        /// Заполнение листа ответов
+        /// </summary>
+        /// <param name="list_Choices">лист который заполняем</param>
+        /// <param name="_qID">id вопроса для процедуры</param>
+        /// <returns>Если ошибка то false сли всё сработало то тру</returns>
+        private bool Init_ListChoices(List<Choice> list_Choices, int _qID)
+        {
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "[Procedure1]",
+                Connection = con
+            };
+
+            // параметр для id вопроса
+            SqlParameter IDParam = new SqlParameter
+            {
+                ParameterName = "@Q_ID",
+                Value = _qID
+            };
+            cmd.Parameters.Add(IDParam);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int ID = (reader.GetInt32(0));
+                        int Q_ID = (reader.GetInt32(1));
+                        string Choice_Text = (reader.GetString(2));
+                        bool is_Correct = (reader.GetBoolean(3));
+
+                        list_Choices.Add(new Choice(ID, Q_ID, Choice_Text, is_Correct));  //додаємо в колекцію
+                    }
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Дані в таблиці Choices відсутні.\n", "DBQnA.mdf",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Помилка читання даних з бази даних.\n" + exc.ToString(), "DBQnA.mdf",
+                          MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Заполнение списка вопросов
+        /// </summary>
+        /// <param name="list_Questions">лист который заполняем</param>
+        /// <returns>Если ошибка то false сли всё сработало то тру</returns>
+        private bool Init_ListQuestions(List<Question> list_Questions)
+        {
+            cmd = new SqlCommand
+            {
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "[Procedure2]",
+                Connection = con
+            };
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int ID = (reader.GetInt32(0));
+                        string Text = (reader.GetString(1));
+
+                        list_Questions.Add(new Question(ID, Text));  //додаємо в колекцію
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Дані в таблиці Questions відсутні.\n", "DBQnA.mdf",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Помилка читання даних з бази даних.\n" + exc.ToString(), "DBQnA.mdf",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Записывает в timeLimit время для игры с базы
+        /// </summary>
         private void GetPackTime()
         {
             cmd = new SqlCommand("Select TimeForGame from CurrentPackInfo", con);
@@ -374,7 +541,7 @@ namespace LearnIT.SecondaryForms
             }
             //заполняем лист ответов в соответствии с вопросом. Делаем это после вопросов потому-что вопросы меняються и нужно подгружать из базы ответы
             //динамически в соответсвии с вопросом.
-            bool result2 = Dbb.Init_ListChoices(list_Choices, current_id);
+            result2 = Init_ListChoices(list_Choices, current_id);
 
             if (result2)
             {

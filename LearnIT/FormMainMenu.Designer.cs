@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.iconButton_About = new FontAwesome.Sharp.IconButton();
             this.iconButton_Settings = new FontAwesome.Sharp.IconButton();
@@ -43,9 +44,9 @@
             this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
             this.panelShadow = new System.Windows.Forms.Panel();
             this.panelDesktop = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_TIME = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -281,22 +282,6 @@
             this.panelDesktop.Size = new System.Drawing.Size(1302, 769);
             this.panelDesktop.TabIndex = 3;
             // 
-            // label_TIME
-            // 
-            this.label_TIME.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label_TIME.AutoSize = true;
-            this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_TIME.ForeColor = System.Drawing.Color.White;
-            this.label_TIME.Location = new System.Drawing.Point(637, 42);
-            this.label_TIME.Name = "label_TIME";
-            this.label_TIME.Size = new System.Drawing.Size(0, 55);
-            this.label_TIME.TabIndex = 0;
-            this.label_TIME.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
@@ -315,6 +300,22 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1302, 769);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // label_TIME
+            // 
+            this.label_TIME.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_TIME.AutoSize = true;
+            this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_TIME.ForeColor = System.Drawing.Color.White;
+            this.label_TIME.Location = new System.Drawing.Point(637, 42);
+            this.label_TIME.Name = "label_TIME";
+            this.label_TIME.Size = new System.Drawing.Size(0, 55);
+            this.label_TIME.TabIndex = 0;
+            this.label_TIME.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FormMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -324,6 +325,7 @@
             this.Controls.Add(this.panelShadow);
             this.Controls.Add(this.panelTitleBar);
             this.Controls.Add(this.panelMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMainMenu";
             this.Text = "Form1";
             this.panelMenu.ResumeLayout(false);

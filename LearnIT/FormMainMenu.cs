@@ -12,16 +12,20 @@ namespace LearnIT
     {
         #region Переменные, структуры, дллимпорты
 
-        private IconButton currentBtn; //Для храниение текущей активной кнопки.
-        private Panel leftBorderBtn; //полоска слева от кнопки для красоты. Появляеться после активации кнопки.
-        private Form currentChildForm; //для дочерней формы
-        public bool isMax;
+        /// <summary>
+        /// Для храниение текущей активной кнопки.
+        /// </summary>
+        private IconButton currentBtn;
 
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
+        /// <summary>
+        /// полоска слева от кнопки для красоты. Появляеться после активации кнопки.
+        /// </summary>
+        private Panel leftBorderBtn;
 
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
+        /// <summary>
+        /// для дочерней формы
+        /// </summary>
+        private Form currentChildForm;
 
         /// <summary>
         /// Цвета для кнопок
@@ -31,10 +35,6 @@ namespace LearnIT
             public static Color color1 = Color.FromArgb(172, 126, 241);
             public static Color color2 = Color.FromArgb(249, 118, 176);
             public static Color color3 = Color.FromArgb(253, 138, 114);
-
-            public static Color color4 = Color.FromArgb(95, 77, 221);
-            public static Color color5 = Color.FromArgb(249, 88, 155);
-            public static Color color6 = Color.FromArgb(24, 161, 251);
         }
 
         #endregion Переменные, структуры, дллимпорты
@@ -147,7 +147,17 @@ namespace LearnIT
 
         #endregion Рабочие методы
 
-        #region События нажатия кнопок
+        #region События
+
+        /// <summary>
+        /// часы на дом. форме
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label_TIME.Text = DateTime.Now.ToString();
+        }
 
         #region Кнопки на левой панели
 
@@ -203,25 +213,38 @@ namespace LearnIT
 
         #region Управление формой справа сверху
 
+        /// <summary>
+        /// Кнопка выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconButton_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// максимизировать окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconButton_Maximize_Click(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Normal)
             {
                 WindowState = FormWindowState.Maximized;
-                isMax = true;
             }
             else
             {
                 WindowState = FormWindowState.Normal;
-                isMax = false;
             }
         }
 
+        /// <summary>
+        /// минимизировать окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconButton_Minimize_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
@@ -231,18 +254,39 @@ namespace LearnIT
 
         #region Двигать форму за верхнюю панель
 
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
+
+        /// <summary>
+        /// двигать за верхнюю панель
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PanelTitleBar_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
             SendMessage(Handle, 0x112, 0xf012, 0);
         }
 
+        /// <summary>
+        /// двигать за лейбл на в. панели
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LblTitleChildForm_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
             SendMessage(Handle, 0x112, 0xf012, 0);
         }
 
+        /// <summary>
+        /// двигать за иконку на в. панели
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconCurrentChildForm_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
@@ -251,11 +295,6 @@ namespace LearnIT
 
         #endregion Двигать форму за верхнюю панель
 
-        #endregion События нажатия кнопок
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            label_TIME.Text = DateTime.Now.ToString();
-        }
+        #endregion События
     }
 }

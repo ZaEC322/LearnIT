@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesAndDB\Choice.cs" />
-    <Compile Include="ClassesAndDB\ConnectDB.cs" />
+    <Compile Include="ClassesAndDB\ConnectToDB.cs" />
     <Compile Include="ClassesAndDB\Question.cs" />
     <Compile Include="FormMainMenu.cs">
       <SubType>Form</SubType>

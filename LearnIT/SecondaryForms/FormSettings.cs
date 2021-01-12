@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using LearnIT.ClassesAndDB;
 
 namespace LearnIT.SecondaryForms
 {
@@ -27,13 +28,44 @@ namespace LearnIT.SecondaryForms
 
         #region Переменные
 
-        private DataSet set; //для работы с данными
-        private int LastCID = 0; //Последний id в таблице ответов
-        private int LastQID = 0; //Последний id в таблице вопросов
-        private int rowindx = 0; //для перемещения фокуса в гриде с вопросами.
-        private int SelectedID = 1; //Выбраный ID
-        private OpenFileDialog OFD = new OpenFileDialog(); //окно выбора файла
-        private SqlCommand cmd;//для комманд
+        /// <summary>
+        /// для работы с данными
+        /// </summary>
+        private DataSet set;
+
+        /// <summary>
+        /// Последний id в таблице ответов
+        /// </summary>
+        private int LastCID = 0;
+
+        /// <summary>
+        /// Последний id в таблице вопросов
+        /// </summary>
+        private int LastQID = 0;
+
+        /// <summary>
+        /// для перемещения фокуса в гриде с вопросами.
+        /// </summary>
+        private int rowindx = 0;
+
+        /// <summary>
+        /// Выбраный ID
+        /// </summary>
+        private int SelectedID = 1;
+
+        /// <summary>
+        /// окно выбора файла
+        /// </summary>
+        private OpenFileDialog OFD = new OpenFileDialog();
+
+        /// <summary>
+        /// для комманд
+        /// </summary>
+        private SqlCommand cmd;
+
+        /// <summary>
+        /// подключение
+        /// </summary>
         private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
 
         #endregion Переменные
@@ -41,6 +73,7 @@ namespace LearnIT.SecondaryForms
         public FormSettings()
         {
             InitializeComponent();
+
             this.DoubleBuffered = true;
             CreateToolTip(a, "Новый пустой вопрос в конец списка");
             CreateToolTip(button_ChooseXML, "Открыть окно для выбора файла базы");
