@@ -1,7 +1,9 @@
 ﻿using FontAwesome.Sharp; //Библ. с иконками.
-using LearnIT.SecondaryForms;
 using System;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -53,6 +55,7 @@ namespace LearnIT
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             FormBorderStyle = FormBorderStyle.None;
+            KeyPreview = true;
         }
 
         #region Рабочие методы
@@ -296,5 +299,25 @@ namespace LearnIT
         #endregion Двигать форму за верхнюю панель
 
         #endregion События
+
+        private void FormMainMenu_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.G)
+            {
+                iconButton_Game.PerformClick();
+            }
+            if (e.KeyCode == Keys.A)
+            {
+                iconButton_About.PerformClick();
+            }
+            if (e.KeyCode == Keys.S)
+            {
+                iconButton_Settings.PerformClick();
+            }
+            if (e.KeyCode == Keys.H)
+            {
+                BtnHome_Click(sender, e);
+            }
+        }
     }
 }

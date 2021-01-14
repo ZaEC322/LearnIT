@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LearnIT.SecondaryForms
+namespace LearnIT
 {
     public partial class FormAbout : Form
     {
@@ -29,7 +29,7 @@ namespace LearnIT.SecondaryForms
         public FormAbout()
         {
             InitializeComponent();
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
             textBox1.Text = "Если выбрать уже существующее название базы - она перезапишеться." +
                "\r\nНазвание базы ДОЛЖНО быть указано для разблокировки кнопок сохранение и загрузки." +
                "\r\nХранить базы нужно в папке UserPacks. Из других мест грузить не будет." +

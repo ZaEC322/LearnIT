@@ -1,18 +1,18 @@
 ﻿using LearnIT.ClassesAndDB;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LearnIT.SecondaryForms
+namespace LearnIT
 {
     public partial class FormGame : Form
     {
-        #region оптимизация отображения всего
+        #region оптимизация отображения контролов
 
         protected override CreateParams CreateParams
         {
@@ -24,7 +24,7 @@ namespace LearnIT.SecondaryForms
             }
         }
 
-        #endregion оптимизация отображения всего
+        #endregion оптимизация отображения контролов
 
         #region поля
 
@@ -33,17 +33,17 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// создаём листы для хранения объектов класса question которые заполняем из бд
         /// </summary>
-        private List<Question> list_Questions = new List<Question>();
+        private readonly List<Question> list_Questions = new List<Question>();
 
         /// <summary>
         /// после заполняем ответы
         /// </summary>
-        private List<Choice> list_Choices = new List<Choice>();
+        private readonly List<Choice> list_Choices = new List<Choice>();
 
         /// <summary>
         /// объект класса рандом.
         /// </summary>
-        private Random rand = new Random();
+        private readonly Random rand = new Random();
 
         /// <summary>
         /// id вопроса для выполнения процедуры по поиску ответов в базе.
@@ -83,7 +83,7 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// переменные для проверки правильности ответа
         /// </summary>
-        private bool[] Is_Correct = new bool[4];
+        private readonly bool[] Is_Correct = new bool[4];
 
         /// <summary>
         /// если на текущий вопрос дан ответ == true, если не дан то false
@@ -98,17 +98,16 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// подключение
         /// </summary>
-        private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
-
-        // internal ConnectDB Dbb { get; set; } = new ConnectDB();
+        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
 
         #endregion поля
 
         public FormGame()
         {
             InitializeComponent();
-
-            this.DoubleBuffered = true;
+            KeyPreview = true;
+            DoubleBuffered = true;
         }
 
         #region события
@@ -213,29 +212,18 @@ namespace LearnIT.SecondaryForms
             tablePanel_Choices.Show();
             NextQuestion();
             timer1.Start();
+            Focus();
         }
 
         private void Btn_Answer1_Click(object sender, EventArgs e)
         {
             if (!Is_Answered)
             {
-                if (WinOrLose(0))
-                {
-                    btn_Answer1.BackColor = Color.Green;
-                }
-                else
-                    btn_Answer1.BackColor = Color.Red;
+                btn_Answer1.BackColor = WinOrLose(0) ? Color.Green : Color.Red;
             }
             else
             {
-                if (Is_Correct[0] == true)
-                {
-                    btn_Answer1.BackColor = Color.Green;
-                }
-                else
-                {
-                    btn_Answer1.BackColor = Color.Red;
-                }
+                btn_Answer1.BackColor = Is_Correct[0] ? Color.Green : Color.Red;
             }
         }
 
@@ -243,23 +231,11 @@ namespace LearnIT.SecondaryForms
         {
             if (!Is_Answered)
             {
-                if (WinOrLose(1))
-                {
-                    btn_Answer2.BackColor = Color.Green;
-                }
-                else
-                    btn_Answer2.BackColor = Color.Red;
+                btn_Answer2.BackColor = WinOrLose(1) ? Color.Green : Color.Red;
             }
             else
             {
-                if (Is_Correct[1] == true)
-                {
-                    btn_Answer2.BackColor = Color.Green;
-                }
-                else
-                {
-                    btn_Answer2.BackColor = Color.Red;
-                }
+                btn_Answer2.BackColor = Is_Correct[1] ? Color.Green : Color.Red;
             }
         }
 
@@ -267,23 +243,11 @@ namespace LearnIT.SecondaryForms
         {
             if (!Is_Answered)
             {
-                if (WinOrLose(2))
-                {
-                    btn_Answer3.BackColor = Color.Green;
-                }
-                else
-                    btn_Answer3.BackColor = Color.Red;
+                btn_Answer3.BackColor = WinOrLose(2) ? Color.Green : Color.Red;
             }
             else
             {
-                if (Is_Correct[2] == true)
-                {
-                    btn_Answer3.BackColor = Color.Green;
-                }
-                else
-                {
-                    btn_Answer3.BackColor = Color.Red;
-                }
+                btn_Answer3.BackColor = Is_Correct[2] ? Color.Green : Color.Red;
             }
         }
 
@@ -291,23 +255,11 @@ namespace LearnIT.SecondaryForms
         {
             if (!Is_Answered)
             {
-                if (WinOrLose(3))
-                {
-                    btn_Answer4.BackColor = Color.Green;
-                }
-                else
-                    btn_Answer4.BackColor = Color.Red;
+                btn_Answer4.BackColor = WinOrLose(3) ? Color.Green : Color.Red;
             }
             else
             {
-                if (Is_Correct[3] == true)
-                {
-                    btn_Answer4.BackColor = Color.Green;
-                }
-                else
-                {
-                    btn_Answer4.BackColor = Color.Red;
-                }
+                btn_Answer4.BackColor = Is_Correct[3] ? Color.Green : Color.Red;
             }
         }
 
@@ -342,6 +294,7 @@ namespace LearnIT.SecondaryForms
             tablePanel_Choices.Hide();
 
             GetPackTime();
+            Focus();
         }
 
         /// <summary>
@@ -484,14 +437,14 @@ namespace LearnIT.SecondaryForms
         }
 
         /// <summary>
-        /// В зависимости от правильсности выбраного ответа возвращаем тру или фолс
+        /// В зависимости от правильсности выбраного ответа возвращаем тру если верный или фолс если неверный
         /// </summary>
-        /// <param name="b">хуйло</param>
+        /// <param name="b">какой ответ проверяем</param>
         /// <returns></returns>
         private bool WinOrLose(int b)
         {
             Is_Answered = true;
-            if (Is_Correct[b] == true)
+            if (Is_Correct[b])
             {
                 counter++;
                 list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
@@ -559,10 +512,10 @@ namespace LearnIT.SecondaryForms
                     return;
                 }
 
-                btn_Answer1.Text = AnswerTexts[0].ToString();
-                btn_Answer2.Text = AnswerTexts[1].ToString();
-                btn_Answer3.Text = AnswerTexts[2].ToString();
-                btn_Answer4.Text = AnswerTexts[3].ToString();
+                btn_Answer1.Text = AnswerTexts[0];
+                btn_Answer2.Text = AnswerTexts[1];
+                btn_Answer3.Text = AnswerTexts[2];
+                btn_Answer4.Text = AnswerTexts[3];
 
                 #region меняем расположение кнопок
 
@@ -573,7 +526,7 @@ namespace LearnIT.SecondaryForms
                     new TableLayoutPanelCellPosition(0,1),
                     new TableLayoutPanelCellPosition(1,1)
                 };
-                TableLayoutPanelCellPosition[] RandomizedP = p.OrderBy(x => rand.Next()).ToArray();
+                TableLayoutPanelCellPosition[] RandomizedP = p.OrderBy(_ => rand.Next()).ToArray();
 
                 Control[] c =
                 {
@@ -630,5 +583,56 @@ namespace LearnIT.SecondaryForms
         }
 
         #endregion рабочие методы
+
+        /// <summary>
+        /// фывфыв
+        /// </summary>
+        /// <param name="k">Кнопка шортката</param>
+        /// <param name="col">Колонка в TableLayoutPanel</param>
+        /// <param name="row">Столбец в TableLayoutPanel</param>
+        /// <param name="tlp">Собственно сам TableLayoutPanel</param>
+        /// <param name="e"></param>
+        /// <param name="sender"></param>
+        private void shortcuts(Keys k, int col, int row, TableLayoutPanel tlp, KeyEventArgs e, object sender)
+        {
+            Control c = tlp.GetControlFromPosition(col, row);
+            if (e.KeyCode == k && tlp.Visible)
+            {
+                if (c == btn_Answer1)
+                {
+                    Btn_Answer1_Click(sender, e);
+                }
+                else if (c == btn_Answer2)
+                {
+                    Btn_Answer2_Click(sender, e);
+                }
+                else if (c == btn_Answer3)
+                {
+                    Btn_Answer3_Click(sender, e);
+                }
+                else if (c == btn_Answer4)
+                {
+                    Btn_Answer4_Click(sender, e);
+                }
+                else if (c == button_Next)
+                {
+                    button_Next.PerformClick();
+                }
+            }
+        }
+
+        private void FormGame_KeyDown(object sender, KeyEventArgs e)
+        {
+            shortcuts(Keys.D1, 0, 0, tablePanel_Choices, e, sender);
+            shortcuts(Keys.D2, 1, 0, tablePanel_Choices, e, sender);
+            shortcuts(Keys.Q, 0, 1, tablePanel_Choices, e, sender);
+            shortcuts(Keys.W, 1, 1, tablePanel_Choices, e, sender);
+            shortcuts(Keys.Space, 2, 0, tablePanel_Choices, e, sender);
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                PlayButton.PerformClick();
+            }
+        }
     }
 }

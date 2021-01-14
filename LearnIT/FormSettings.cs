@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
-using LearnIT.ClassesAndDB;
 
-namespace LearnIT.SecondaryForms
+namespace LearnIT
 {
     public partial class FormSettings : Form
     {
@@ -56,7 +55,7 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// окно выбора файла
         /// </summary>
-        private OpenFileDialog OFD = new OpenFileDialog();
+        private readonly OpenFileDialog OFD = new OpenFileDialog();
 
         /// <summary>
         /// для комманд
@@ -66,7 +65,8 @@ namespace LearnIT.SecondaryForms
         /// <summary>
         /// подключение
         /// </summary>
-        private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString); //подключение
+        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
 
         #endregion Переменные
 
@@ -74,7 +74,7 @@ namespace LearnIT.SecondaryForms
         {
             InitializeComponent();
 
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
             CreateToolTip(a, "Новый пустой вопрос в конец списка");
             CreateToolTip(button_ChooseXML, "Открыть окно для выбора файла базы");
             CreateToolTip(button_LoadChosenXML, "Загрузить выбранный файл в программу");
@@ -84,6 +84,17 @@ namespace LearnIT.SecondaryForms
         }
 
         #region Рабочие методы
+
+        /// <summary>
+        /// Получаем установленное время для игры из бд
+        /// </summary>
+        private void GetPackTime()
+        {
+            cmd = new SqlCommand("Select TimeForGame from CurrentPackInfo", con);
+            con.Open();
+            numericUpDown1.Value = (int)cmd.ExecuteScalar();
+            con.Close();
+        }
 
         private void SetPackName(string name)
         {
@@ -134,8 +145,8 @@ namespace LearnIT.SecondaryForms
             dataGridView_Choices.Columns[0].Visible = false;
             dataGridView_Choices.Columns[1].Visible = false;
 
-            dataGridView_Questions.Columns[0].Width = 60;
-            dataGridView_Choices.Columns[3].Width = 100;
+            dataGridView_Questions.Columns[0].Width = 30;
+            dataGridView_Choices.Columns[3].Width = 75;
 
             dataGridView_Questions.Columns[0].HeaderText = "ID";
             dataGridView_Questions.Columns[1].HeaderText = "Вопрос";
@@ -330,7 +341,9 @@ namespace LearnIT.SecondaryForms
         {
             //если удалять нечего то ретурн
             if (dataGridView_Questions.Rows.Count == 0)
+            {
                 return;
+            }
             // если запись одна - значит удаляем последнюю запись. Значит присваиваем ластайди 0.
             else if (dataGridView_Questions.Rows.Count == 1)
             {
@@ -356,7 +369,7 @@ namespace LearnIT.SecondaryForms
                 DisplayData();
 
                 if (rowindx != 0)
-                    rowindx -= 1;
+                    rowindx--;
 
                 dataGridView_Questions.Rows[rowindx].Cells[1].Selected = true;//выделяем пред. запись
                 SelectedID = (int)dataGridView_Questions.Rows[rowindx].Cells[0].Value;//селектедайди присваиваем значение из пред. записи
@@ -364,7 +377,9 @@ namespace LearnIT.SecondaryForms
                 GetLastIDFromQC(1);
             }
             else
+            {
                 MessageBox.Show("Выберите запись для удаления");
+            }
         }
 
         #endregion CRUD для работы с базой в проге
@@ -378,7 +393,7 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void Button_SaveThisDBToXML_Click(object sender, EventArgs e)
         {
-            if (textBox_dbname.Text == "")
+            if (textBox_dbname.Text?.Length == 0)
             {
                 return;
             }
@@ -401,9 +416,7 @@ namespace LearnIT.SecondaryForms
                         GetPackName();
                         set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                         MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Обновлён");
-                        return;
                     }
-                    else return;
                 }
                 //Если такого фалйа не то просто создаём его.
                 else
@@ -413,10 +426,8 @@ namespace LearnIT.SecondaryForms
                     GetPackName();
                     set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
                     MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Создан");
-                    return;
                 }
             }
-            else return;
         }
 
         /// <summary>
@@ -428,7 +439,7 @@ namespace LearnIT.SecondaryForms
         {
             #region проверки
 
-            if (textBox_dbname.Text == "")
+            if (textBox_dbname.Text?.Length == 0)
             {
                 return;
             }
@@ -436,11 +447,11 @@ namespace LearnIT.SecondaryForms
             string errorText = "";
             DialogResult dialogResult = MessageBox.Show("Данное действие удалит текущую базу из памяти программы и загрузит выбранную базу из папки UserPacks." +
                 " \nЕсли вы не сохранили текущую базу то она пропадёт.\nЖелаете продолжить?", "ВНИМАНИЕ!", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+
+            if (dialogResult == DialogResult.No)
             {
-                //продолжаем если выбор да
+                return; //прекращаем если выбор нет
             }
-            else if (dialogResult == DialogResult.No) return; //прекращаем если выбор нет
 
             //Создайм локальный дс дт на случай если будет ошибка чтобы не перебить существующий сет
             DataSet ds = new DataSet();
@@ -594,16 +605,11 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView_Questions.Rows.Count != 0)
+            if (dataGridView_Questions.Rows.Count != 0 && e.RowIndex >= 0)
             {
-                if (e.RowIndex >= 0)
-                {
-                    SelectedID = (int)dataGridView_Questions.Rows[e.RowIndex].Cells[0].Value;
-                    rowindx = e.RowIndex;
-                }
+                SelectedID = (int)dataGridView_Questions.Rows[e.RowIndex].Cells[0].Value;
+                rowindx = e.RowIndex;
             }
-            else
-                return;
         }
 
         /// <summary>
@@ -613,17 +619,32 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void TextBox_dbname_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\\') e.Handled = true;
-            if (e.KeyChar == '/') e.Handled = true;
-            if (e.KeyChar == ':') e.Handled = true;
-            if (e.KeyChar == '*') e.Handled = true;
-            if (e.KeyChar == '?') e.Handled = true;
-            if (e.KeyChar == '"') e.Handled = true;
-            if (e.KeyChar == '<') e.Handled = true;
-            if (e.KeyChar == '>') e.Handled = true;
-            if (e.KeyChar == '|') e.Handled = true;
-            if (e.KeyChar == '.') e.Handled = true;
-            if (e.KeyChar == (Char)Keys.Space) e.Handled = true;
+            switch (e.KeyChar)
+            {
+                case '\\':
+
+                case '/':
+
+                case ':':
+
+                case '*':
+
+                case '?':
+
+                case '"':
+
+                case '<':
+
+                case '>':
+
+                case '|':
+
+                case '.':
+
+                case (char)Keys.Space:
+                    e.Handled = true;
+                    break;
+            }
         }
 
         /// <summary>
@@ -634,7 +655,7 @@ namespace LearnIT.SecondaryForms
         /// <param name="e"></param>
         private void TextBox_dbname_TextChanged(object sender, EventArgs e)
         {
-            if (textBox_dbname.Text.IndexOfAny(new char[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.', (Char)Keys.Space }) != -1)
+            if (textBox_dbname.Text.IndexOfAny(new char[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '.', (char)Keys.Space }) != -1)
             {
                 if (textBox_dbname.Text.Length > 1)
                 {
@@ -648,9 +669,12 @@ namespace LearnIT.SecondaryForms
             }
         }
 
-        #endregion События
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        /// <summary>
+        /// При изменении значения времени на игру обновляем запись в бд
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             cmd = new SqlCommand("UPDATE CurrentPackInfo SET TimeForGame = @TimeForGame WHERE Id = @id", con);
             con.Close();
@@ -662,12 +686,19 @@ namespace LearnIT.SecondaryForms
             con.Close();
         }
 
-        private void GetPackTime()
+        /// <summary>
+        /// При изменении размера окна восстанавливаем вид гридов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormSettings_SizeChanged(object sender, EventArgs e)
         {
-            cmd = new SqlCommand("Select TimeForGame from CurrentPackInfo", con);
-            con.Open();
-            numericUpDown1.Value = (int)cmd.ExecuteScalar();
-            con.Close();
+            if (dataGridView_Choices.Created || dataGridView_Questions.Created)
+            {
+                SetGridsAppearence();
+            }
         }
+
+        #endregion События
     }
 }

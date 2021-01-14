@@ -1,4 +1,4 @@
-﻿namespace LearnIT.SecondaryForms
+﻿namespace LearnIT
 {
     partial class FormGame
     {
@@ -48,7 +48,7 @@
             // 
             this.textBox_Question.BackColor = System.Drawing.Color.Linen;
             this.textBox_Question.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_Question.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox_Question.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox_Question.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textBox_Question.Location = new System.Drawing.Point(0, 0);
             this.textBox_Question.Multiline = true;
@@ -58,6 +58,7 @@
             this.textBox_Question.Size = new System.Drawing.Size(1284, 722);
             this.textBox_Question.TabIndex = 10;
             this.textBox_Question.TabStop = false;
+            this.textBox_Question.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // timer1
             // 
@@ -146,7 +147,7 @@
             this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer4.ForeColor = System.Drawing.Color.Gainsboro;
             this.btn_Answer4.Location = new System.Drawing.Point(514, 187);
             this.btn_Answer4.Multiline = true;
@@ -155,6 +156,7 @@
             this.btn_Answer4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.btn_Answer4.Size = new System.Drawing.Size(505, 179);
             this.btn_Answer4.TabIndex = 14;
+            this.btn_Answer4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.btn_Answer4.Click += new System.EventHandler(this.Btn_Answer4_Click);
             this.btn_Answer4.MouseEnter += new System.EventHandler(this.Btn_Answer4_MouseEnter);
             this.btn_Answer4.MouseLeave += new System.EventHandler(this.Btn_Answer4_MouseLeave);
@@ -165,7 +167,7 @@
             this.btn_Answer3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer3.ForeColor = System.Drawing.Color.Gainsboro;
             this.btn_Answer3.Location = new System.Drawing.Point(3, 187);
             this.btn_Answer3.Multiline = true;
@@ -174,6 +176,7 @@
             this.btn_Answer3.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.btn_Answer3.Size = new System.Drawing.Size(505, 179);
             this.btn_Answer3.TabIndex = 13;
+            this.btn_Answer3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.btn_Answer3.Click += new System.EventHandler(this.Btn_Answer3_Click);
             this.btn_Answer3.MouseEnter += new System.EventHandler(this.Btn_Answer3_MouseEnter);
             this.btn_Answer3.MouseLeave += new System.EventHandler(this.Btn_Answer3_MouseLeave);
@@ -184,7 +187,7 @@
             this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer2.ForeColor = System.Drawing.Color.Gainsboro;
             this.btn_Answer2.Location = new System.Drawing.Point(514, 3);
             this.btn_Answer2.Multiline = true;
@@ -193,6 +196,7 @@
             this.btn_Answer2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.btn_Answer2.Size = new System.Drawing.Size(505, 178);
             this.btn_Answer2.TabIndex = 12;
+            this.btn_Answer2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.btn_Answer2.Click += new System.EventHandler(this.Btn_Answer2_Click);
             this.btn_Answer2.MouseEnter += new System.EventHandler(this.Btn_Answer2_MouseEnter);
             this.btn_Answer2.MouseLeave += new System.EventHandler(this.Btn_Answer2_MouseLeave);
@@ -203,7 +207,7 @@
             this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.btn_Answer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer1.ForeColor = System.Drawing.Color.Gainsboro;
             this.btn_Answer1.Location = new System.Drawing.Point(3, 3);
             this.btn_Answer1.Multiline = true;
@@ -212,6 +216,7 @@
             this.btn_Answer1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.btn_Answer1.Size = new System.Drawing.Size(505, 178);
             this.btn_Answer1.TabIndex = 11;
+            this.btn_Answer1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.btn_Answer1.Click += new System.EventHandler(this.Btn_Answer1_Click);
             this.btn_Answer1.MouseEnter += new System.EventHandler(this.Btn_Answer1_MouseEnter);
             this.btn_Answer1.MouseLeave += new System.EventHandler(this.Btn_Answer1_MouseLeave);
@@ -229,6 +234,7 @@
             this.Name = "FormGame";
             this.Text = "Гра";
             this.Load += new System.EventHandler(this.FormGame_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormGame_KeyDown);
             this.panelQuestion.ResumeLayout(false);
             this.panelQuestion.PerformLayout();
             this.tablePanel_Choices.ResumeLayout(false);

@@ -1,4 +1,4 @@
-﻿namespace LearnIT.SecondaryForms
+﻿namespace LearnIT
 {
     partial class FormAbout
     {
