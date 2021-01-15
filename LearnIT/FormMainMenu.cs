@@ -302,19 +302,19 @@ namespace LearnIT
 
         private void FormMainMenu_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.G)
+            if (e.Control && e.KeyCode == Keys.G)
             {
                 iconButton_Game.PerformClick();
             }
-            if (e.KeyCode == Keys.A)
+            if (e.KeyCode == Keys.A && e.Control)
             {
                 iconButton_About.PerformClick();
             }
-            if (e.KeyCode == Keys.S)
+            if (e.KeyCode == Keys.S && e.Control)
             {
                 iconButton_Settings.PerformClick();
             }
-            if (e.KeyCode == Keys.H)
+            if (e.KeyCode == Keys.H && e.Control)
             {
                 BtnHome_Click(sender, e);
             }
