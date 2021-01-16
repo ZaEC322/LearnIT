@@ -582,6 +582,18 @@ namespace LearnIT
             */
         }
 
+        private void SetGameResult(string name)
+        {
+            cmd = new SqlCommand("UPDATE CurrentPackInfo SET GameResult = @GameResult WHERE Id = @id", con);
+            con.Open();
+            cmd.Parameters.AddWithValue("@PackName", name);
+            cmd.Parameters.AddWithValue("@id", 1);
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            // textBox_CurrentDBName.Text = GetPackName();
+        }
+
         #endregion рабочие методы
 
         /// <summary>
