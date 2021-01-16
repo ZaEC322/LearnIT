@@ -106,7 +106,7 @@ namespace LearnIT
         public FormGame()
         {
             InitializeComponent();
-            KeyPreview = true;
+            KeyPreview = true; //для шорткатов
             DoubleBuffered = true;
         }
 
