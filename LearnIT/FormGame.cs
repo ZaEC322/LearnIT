@@ -1,5 +1,4 @@
-﻿using LearnIT.ClassesAndDB;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,6 +13,9 @@ namespace LearnIT
     {
         #region оптимизация отображения контролов
 
+        /// <summary>
+        /// Хз как работает но контролы отображаються корректно
+        /// </summary>
         protected override CreateParams CreateParams
         {
             get
@@ -28,15 +30,18 @@ namespace LearnIT
 
         #region поля
 
+        /// <summary>
+        /// лимит времени. Если не успел ответить на все вопросы то конец игры
+        /// </summary>
         private int timeLimit;
 
         /// <summary>
-        /// создаём листы для хранения объектов класса question которые заполняем из бд
+        /// лист для хранения объектов класса question которые заполняем из бд
         /// </summary>
         private readonly List<Question> list_Questions = new List<Question>();
 
         /// <summary>
-        /// после заполняем ответы
+        /// лист для хранения объектов класса Choice которые заполняем из бд
         /// </summary>
         private readonly List<Choice> list_Choices = new List<Choice>();
 
@@ -53,7 +58,7 @@ namespace LearnIT
         /// <summary>
         /// количество правильно отвеченых вопросов
         /// </summary>
-        private int counter;
+        private int CorrectCounter;
 
         /// <summary>
         /// для хранинения рандомно выбраного индекса текущего вопроса.
@@ -98,7 +103,7 @@ namespace LearnIT
         /// <summary>
         /// подключение
         /// </summary>
-        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+        private readonly SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
             Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
 
         #endregion поля
@@ -107,7 +112,7 @@ namespace LearnIT
         {
             InitializeComponent();
             KeyPreview = true; //для шорткатов
-            DoubleBuffered = true;
+            DoubleBuffered = true; //чтобы окно было плавным
         }
 
         #region события
@@ -215,60 +220,87 @@ namespace LearnIT
             Focus();
         }
 
+        /// <summary>
+        /// Кнопка ответа1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Answer1_Click(object sender, EventArgs e)
         {
-            if (!Is_Answered)
+            if (!Is_Answered)//если ответ ещё не дан то засчитываем балл(или нет если был дан неверный ответ)
             {
                 btn_Answer1.BackColor = WinOrLose(0) ? Color.Green : Color.Red;
             }
-            else
+            else//а если уже выбрали один из ответов то только меняем цвета у кнопок но балл не засчитываем
             {
                 btn_Answer1.BackColor = Is_Correct[0] ? Color.Green : Color.Red;
             }
         }
 
+        /// <summary>
+        /// Кнопка ответа2
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Answer2_Click(object sender, EventArgs e)
         {
-            if (!Is_Answered)
+            if (!Is_Answered)//если ответ ещё не дан то засчитываем балл(или нет если был дан неверный ответ)
             {
                 btn_Answer2.BackColor = WinOrLose(1) ? Color.Green : Color.Red;
             }
-            else
+            else//а если уже выбрали один из ответов то только меняем цвета у кнопок но балл не засчитываем
             {
                 btn_Answer2.BackColor = Is_Correct[1] ? Color.Green : Color.Red;
             }
         }
 
+        /// <summary>
+        /// Кнопка ответа3
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Answer3_Click(object sender, EventArgs e)
         {
-            if (!Is_Answered)
+            if (!Is_Answered)//если ответ ещё не дан то засчитываем балл(или нет если был дан неверный ответ)
             {
                 btn_Answer3.BackColor = WinOrLose(2) ? Color.Green : Color.Red;
             }
-            else
+            else//а если уже выбрали один из ответов то только меняем цвета у кнопок но балл не засчитываем
             {
                 btn_Answer3.BackColor = Is_Correct[2] ? Color.Green : Color.Red;
             }
         }
 
+        /// <summary>
+        /// Кнопка ответа4
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Answer4_Click(object sender, EventArgs e)
         {
-            if (!Is_Answered)
+            if (!Is_Answered)//если ответ ещё не дан то засчитываем балл(или нет если был дан неверный ответ)
             {
                 btn_Answer4.BackColor = WinOrLose(3) ? Color.Green : Color.Red;
             }
-            else
+            else//а если уже выбрали один из ответов то только меняем цвета у кнопок но балл не засчитываем
             {
                 btn_Answer4.BackColor = Is_Correct[3] ? Color.Green : Color.Red;
             }
         }
 
+        /// <summary>
+        /// Следующий вопрос
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Next_Click(object sender, EventArgs e)
         {
             NextQuestion();
         }
 
         #endregion клики кнопки на форме
+
+        #region разное
 
         /// <summary>
         /// Чистит листы и заполняет их заново. Обнуляет таймеры, счётчики и тд.
@@ -282,7 +314,7 @@ namespace LearnIT
             list_Choices.Clear();//сбрасываем при каждом открытии окна.
             timer1.Stop();//останавливаем таймер чтобы он стартанул с запуском игры
             _ticks = 0;//обнуляем таймер
-            counter = 0; //сбрасываем при каждой загрузке окна.
+            CorrectCounter = 0; //сбрасываем при каждой загрузке окна.
             result1 = Init_ListQuestions(list_Questions);//заполняем лист вопросов
 
             if (list_Questions.Count == 0)
@@ -295,6 +327,25 @@ namespace LearnIT
 
             GetPackTime();
             Focus();
+        }
+
+        /// <summary>
+        /// для шорткатов на форме игры
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormGame_KeyDown(object sender, KeyEventArgs e)
+        {
+            Shortcuts(Keys.D1, 0, 0, tablePanel_Choices, e, sender);
+            Shortcuts(Keys.D2, 1, 0, tablePanel_Choices, e, sender);
+            Shortcuts(Keys.Q, 0, 1, tablePanel_Choices, e, sender);
+            Shortcuts(Keys.W, 1, 1, tablePanel_Choices, e, sender);
+            Shortcuts(Keys.Space, 2, 0, tablePanel_Choices, e, sender);
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                PlayButton.PerformClick();
+            }
         }
 
         /// <summary>
@@ -311,6 +362,8 @@ namespace LearnIT
             _ticks++;
             label_Timer.Text = _ticks.ToString() + "\\" + timeLimit + " сек.";
         }
+
+        #endregion разное
 
         #endregion события
 
@@ -443,10 +496,10 @@ namespace LearnIT
         /// <returns></returns>
         private bool WinOrLose(int b)
         {
-            Is_Answered = true;
+            Is_Answered = true; //ответ был дан
             if (Is_Correct[b])
             {
-                counter++;
+                CorrectCounter++;//если правильно ответил то засчитываем балл
                 list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
                 return true;
             }
@@ -464,7 +517,7 @@ namespace LearnIT
         {
             Is_Answered = false;//пока игрок не выбрал ответ должно быть false
 
-            //выставляем цвеа по умолчанию
+            //выставляем цвеnа кнопок(текстбоксов) по умолчанию
             btn_Answer1.BackColor = Color.FromArgb(34, 33, 74);
             btn_Answer2.BackColor = Color.FromArgb(34, 33, 74);
             btn_Answer3.BackColor = Color.FromArgb(34, 33, 74);
@@ -495,29 +548,29 @@ namespace LearnIT
             //заполняем лист ответов в соответствии с вопросом. Делаем это после вопросов потому-что вопросы меняються и нужно подгружать из базы ответы
             //динамически в соответсвии с вопросом.
             result2 = Init_ListChoices(list_Choices, current_id);
-
+            //если листу удалось заполниться то...
             if (result2)
             {
                 string[] AnswerTexts = new string[4];//для хранения текстового значения ответов на вопос
                 for (int i = 0; i < list_Choices.Count; i++) //заполняем массив ответами.
                 {
                     Choice C = list_Choices[i];
-                    AnswerTexts[i] = C.ChoiceText.Value;
-                    Is_Correct[i] = C.is_Correct.Value;
+                    AnswerTexts[i] = C.ChoiceText.Value;//собсна сам текст ответа
+                    Is_Correct[i] = C.is_Correct.Value;//правильный ли ответ
                 }
-                if (AnswerTexts.Any(x => x == null))
+                if (AnswerTexts.Any(x => x == null))//проверочка если какой-то вопрос оказался null (такое может случиться если юзер сам пытался изменить xml файл
                 {
                     MessageBox.Show("Проверьте базу данных ответов. Проблема с ответами для вопроса с id " + current_id);
                     Close();
                     return;
                 }
-
+                //показываем текст ответов на кнопках(текстбоксах)
                 btn_Answer1.Text = AnswerTexts[0];
                 btn_Answer2.Text = AnswerTexts[1];
                 btn_Answer3.Text = AnswerTexts[2];
                 btn_Answer4.Text = AnswerTexts[3];
 
-                #region меняем расположение кнопок
+                #region рандомно меняем расположение кнопок
 
                 TableLayoutPanelCellPosition[] p =
                 {
@@ -541,7 +594,7 @@ namespace LearnIT
                     tablePanel_Choices.SetCellPosition(c[i], RandomizedP[i]);
                 }
 
-                #endregion меняем расположение кнопок
+                #endregion рандомно меняем расположение кнопок
 
                 list_Choices.Clear();//очищаем лист ответов. (Для загрузки ответов на следующий вопрос)
             }
@@ -557,14 +610,16 @@ namespace LearnIT
         /// </summary>
         private void GameEnd()
         {
+            //скрываем контролы с формы
             foreach (Control ct in Controls)
             {
                 ct.Hide();
             }
-
+            //выводим результат
+            //переделать по красивей что-то придумать мб график или таблицу результатов.
             TextBox txt = new TextBox()
             {
-                Text = "Вопросы закончились. Правильных ответов " + counter + " из " + questCount + "\r\nВремя: " + _ticks + "\\" + timeLimit + " сек.",
+                Text = "Вопросы закончились. Правильных ответов " + CorrectCounter + " из " + questCount + "\r\nВремя: " + _ticks + "\\" + timeLimit + " сек.",
                 Dock = DockStyle.Fill,
                 Parent = this,
                 BackColor = Color.FromArgb(34, 33, 74),
@@ -575,29 +630,69 @@ namespace LearnIT
             };
 
             Controls.Add(txt);
-
-            /*
-             * Записывать в бд результат который потом выводить на мейнформе.
-             *
-            */
+            SetGameResult();
         }
-
-        private void SetGameResult(string name)
-        {
-            cmd = new SqlCommand("UPDATE CurrentPackInfo SET GameResult = @GameResult WHERE Id = @id", con);
-            con.Open();
-            cmd.Parameters.AddWithValue("@PackName", name);
-            cmd.Parameters.AddWithValue("@id", 1);
-            cmd.ExecuteNonQuery();
-            con.Close();
-
-            // textBox_CurrentDBName.Text = GetPackName();
-        }
-
-        #endregion рабочие методы
 
         /// <summary>
-        /// фывфыв
+        /// Записываем результат игры в бд
+        /// </summary>
+        private void SetGameResult()
+        {
+            int? UserID;//для id игрока
+
+            //для генерирования след. id
+            con.Open();
+            cmd = new SqlCommand("select MAX(Id) FROM ResultLog", con);
+            int LastRID = (int)cmd.ExecuteScalar() + 1;
+            con.Close();
+
+            //дата и время игры
+            DateTime myDateTime = DateTime.Now;
+
+            //записываем id игрока
+            cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
+            con.Open();
+            try
+            {
+                UserID = (int?)cmd.ExecuteScalar();
+            }
+            catch (InvalidCastException)
+            {
+                UserID = null;
+            }
+
+            con.Close();
+
+            //название пака
+            cmd = new SqlCommand("Select PackName from CurrentPackInfo", con);
+            con.Open();
+
+            string packname = (string)cmd.ExecuteScalar();
+            con.Close();
+
+            //и вставляем всё это в бд
+            cmd = new SqlCommand("insert into ResultLog(Id,GameResult,GameDate,PlayerName_FK,PackName,Time) values(@Id,@GameResult,@GameDate,@PlayerName_FK,@PackName,@Time)", con);
+            con.Open();
+            cmd.Parameters.AddWithValue("@Id", LastRID);
+            cmd.Parameters.AddWithValue("@GameResult", CorrectCounter * 100 / questCount);
+            cmd.Parameters.AddWithValue("@GameDate", myDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            if (UserID == null)
+            {
+                cmd.Parameters.AddWithValue("@PlayerName_FK", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@PlayerName_FK", UserID);
+            }
+
+            cmd.Parameters.AddWithValue("@PackName", packname);
+            cmd.Parameters.AddWithValue("@Time", _ticks);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        /// <summary>
+        /// горячие клавишы
         /// </summary>
         /// <param name="k">Кнопка шортката</param>
         /// <param name="col">Колонка в TableLayoutPanel</param>
@@ -605,7 +700,7 @@ namespace LearnIT
         /// <param name="tlp">Собственно сам TableLayoutPanel</param>
         /// <param name="e"></param>
         /// <param name="sender"></param>
-        private void shortcuts(Keys k, int col, int row, TableLayoutPanel tlp, KeyEventArgs e, object sender)
+        private void Shortcuts(Keys k, int col, int row, TableLayoutPanel tlp, KeyEventArgs e, object sender)
         {
             Control c = tlp.GetControlFromPosition(col, row);
             if (e.KeyCode == k && tlp.Visible)
@@ -633,18 +728,6 @@ namespace LearnIT
             }
         }
 
-        private void FormGame_KeyDown(object sender, KeyEventArgs e)
-        {
-            shortcuts(Keys.D1, 0, 0, tablePanel_Choices, e, sender);
-            shortcuts(Keys.D2, 1, 0, tablePanel_Choices, e, sender);
-            shortcuts(Keys.Q, 0, 1, tablePanel_Choices, e, sender);
-            shortcuts(Keys.W, 1, 1, tablePanel_Choices, e, sender);
-            shortcuts(Keys.Space, 2, 0, tablePanel_Choices, e, sender);
-
-            if (e.KeyCode == Keys.Enter)
-            {
-                PlayButton.PerformClick();
-            }
-        }
+        #endregion рабочие методы
     }
 }

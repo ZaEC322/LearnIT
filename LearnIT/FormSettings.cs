@@ -65,7 +65,7 @@ namespace LearnIT
         /// <summary>
         /// подключение
         /// </summary>
-        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+        private SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
             Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
 
         #endregion Переменные
@@ -185,13 +185,11 @@ namespace LearnIT
             set = new DataSet();
             DataTable QuestionsTable = FillDataTable("Questions");
             DataTable ChoicesTable = FillDataTable("Choices");
-            //DataTable CurrentName = fillDataTable("CurrentName");
 
             QuestionsTable.TableName = "Questions";
             ChoicesTable.TableName = "Choices";
             set.Tables.Add(QuestionsTable);
             set.Tables.Add(ChoicesTable);
-            // set.Tables.Add(CurrentName);
 
             set.Relations.Add("QCRealations", QuestionsTable.Columns["Question_ID"], ChoicesTable.Columns["FK_Question_ID"]);
 

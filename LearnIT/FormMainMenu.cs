@@ -1,10 +1,12 @@
 ﻿using FontAwesome.Sharp; //Библ. с иконками.
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace LearnIT
@@ -22,7 +24,7 @@ namespace LearnIT
         /// <summary>
         /// полоска слева от кнопки для красоты. Появляеться после активации кнопки.
         /// </summary>
-        private Panel leftBorderBtn;
+        private readonly Panel leftBorderBtn;
 
         /// <summary>
         /// для дочерней формы
@@ -39,15 +41,26 @@ namespace LearnIT
             public static Color color3 = Color.FromArgb(253, 138, 114);
         }
 
+        /// <summary>
+        /// подключение
+        /// </summary>
+        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
+
+        /// <summary>
+        /// для комманд
+        /// </summary>
+        private SqlCommand cmd;
+
         #endregion Переменные, структуры, дллимпорты
 
         //конструктор
         public FormMainMenu()
         {
             InitializeComponent();
-            timer1.Enabled = true;
+            timer1.Enabled = true; //подрубаем часики
             timer1.Interval = 1000;
-            leftBorderBtn = new Panel();
+            leftBorderBtn = new Panel();//полоска для красоты
             panelMenu.Controls.Add(leftBorderBtn);
             //Настраиваем вид формы
             this.Text = string.Empty;
@@ -56,9 +69,20 @@ namespace LearnIT
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
+            GetUserName();//выводим ник юзера сверху
         }
 
         #region Рабочие методы
+
+        /// <summary>
+        /// мусор
+        /// </summary>
+        public static void GarbageC()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
 
         /// <summary>
         /// Изменение вида кнопки после нажатия на неё придавая ей цвет и смещая содержимое чтобы
@@ -79,13 +103,13 @@ namespace LearnIT
                 currentBtn.IconColor = color;
                 currentBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
                 currentBtn.ImageAlign = ContentAlignment.MiddleRight;
-                //Left border button
+                //Полоска справа от кнопкии
                 leftBorderBtn.BackColor = color;
                 leftBorderBtn.Location = new Point(0, currentBtn.Location.Y);
                 leftBorderBtn.Size = new Size(7, currentBtn.Height);
                 leftBorderBtn.Visible = true;
                 leftBorderBtn.BringToFront();
-                //Current Child Form Icon
+                //Иконка текущей дочерней формы
 
                 iconCurrentChildForm.IconChar = currentBtn.IconChar;
                 iconCurrentChildForm.IconColor = color;
@@ -114,11 +138,9 @@ namespace LearnIT
         /// <param name="childForm">Конструктор формы которую нужно открыть</param>
         private void OpenChildForm(Form childForm)
         {
-            //Закрывает открытую форму если такая есть
-            if (currentChildForm != null)
-            {
-                currentChildForm.Close();
-            }
+            //Закрываем открытую форму если такая есть
+            currentChildForm?.Close();
+            //записываем новую
             currentChildForm = childForm;
 
             //устанавливаем вид для формы
@@ -134,6 +156,7 @@ namespace LearnIT
 
             childForm.Show();//и показываем её
             lblTitleChildForm.Text = childForm.Text;//выводим название дочерней формы сверху.
+            GarbageC();
         }
 
         /// <summary>
@@ -148,6 +171,52 @@ namespace LearnIT
             lblTitleChildForm.Text = "Домашня сторінка";
         }
 
+        /// <summary>
+        /// Установить id текущего игрока для которого ведутся записи результатов
+        /// </summary>
+        /// <param name="userId"></param>
+        private void SetUserName(int? userId)
+        {
+            cmd = new SqlCommand("UPDATE CurrentPackInfo SET CurrentPlayerName_FK = @CurrentPlayerName_FK WHERE Id = @id", con);
+            con.Close();
+            con.Open();
+            if (userId == null)
+            {
+                cmd.Parameters.AddWithValue("@CurrentPlayerName_FK", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@CurrentPlayerName_FK", userId);
+            }
+            cmd.Parameters.AddWithValue("@id", 1);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        /// <summary>
+        /// Показать ник игрока сверху
+        /// </summary>
+        private void GetUserName()
+        {
+            int temp;
+            cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
+            con.Open();
+            try
+            {
+                temp = (int)cmd.ExecuteScalar();
+            }
+            catch (InvalidCastException)
+            {
+                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                return;
+            }
+
+            cmd = new SqlCommand("Select PlayerName from Players Where Id = @Id", con);
+            cmd.Parameters.AddWithValue("@Id", temp);
+            label_LogText.Text = "Привет, " + (string)cmd.ExecuteScalar();
+            con.Close();
+        }
+
         #endregion Рабочие методы
 
         #region События
@@ -157,9 +226,31 @@ namespace LearnIT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e) => label_TIME.Text = DateTime.Now.ToString();
+
+        /// <summary>
+        /// Шорткаты(наверное убрать их потому-что не удобно)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMainMenu_KeyDown(object sender, KeyEventArgs e)
         {
-            label_TIME.Text = DateTime.Now.ToString();
+            if (e.Control && e.KeyCode == Keys.G)
+            {
+                iconButton_Game.PerformClick();
+            }
+            if (e.KeyCode == Keys.A && e.Control)
+            {
+                iconButton_About.PerformClick();
+            }
+            if (e.KeyCode == Keys.S && e.Control)
+            {
+                iconButton_Settings.PerformClick();
+            }
+            if (e.KeyCode == Keys.H && e.Control)
+            {
+                BtnHome_Click(sender, e);
+            }
         }
 
         #region Кнопки на левой панели
@@ -221,10 +312,7 @@ namespace LearnIT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void IconButton_Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void IconButton_Exit_Click(object sender, EventArgs e) => Application.Exit();
 
         /// <summary>
         /// максимизировать окно
@@ -233,14 +321,7 @@ namespace LearnIT
         /// <param name="e"></param>
         private void IconButton_Maximize_Click(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Normal)
-            {
-                WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                WindowState = FormWindowState.Normal;
-            }
+            WindowState = WindowState == FormWindowState.Normal ? FormWindowState.Maximized : FormWindowState.Normal;
         }
 
         /// <summary>
@@ -248,10 +329,7 @@ namespace LearnIT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void IconButton_Minimize_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
+        private void IconButton_Minimize_Click(object sender, EventArgs e) => WindowState = FormWindowState.Minimized;
 
         #endregion Управление формой справа сверху
 
@@ -298,26 +376,109 @@ namespace LearnIT
 
         #endregion Двигать форму за верхнюю панель
 
-        #endregion События
+        #region аккаунт
 
-        private void FormMainMenu_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Логин
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonLogin_Click(object sender, EventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.G)
+            //проверки
+            if (txtUsername.Text.Length < 1)
             {
-                iconButton_Game.PerformClick();
+                MessageBox.Show("Логин должен быть не короче одного символа");
+                return;
             }
-            if (e.KeyCode == Keys.A && e.Control)
+            if (txtPassword.Text.Length < 1)
             {
-                iconButton_About.PerformClick();
+                MessageBox.Show("Пароль должен быть не короче одного символа");
+                return;
             }
-            if (e.KeyCode == Keys.S && e.Control)
+
+            DataTable dtbl = new DataTable();
+
+            string query = "Select * from Players Where PlayerName = '" + txtUsername.Text.Trim() + "' and Password = '" + txtPassword.Text.Trim() + "'";
+
+            SqlDataAdapter sda = new SqlDataAdapter(query, con);
+
+            sda.Fill(dtbl);
+
+            if (dtbl.Rows.Count == 1)//если такой аккаунт есть то
             {
-                iconButton_Settings.PerformClick();
+                SetUserName(dtbl.Rows[0].Field<int>("Id")); //записываем его id как fk в таблице CurrentPackInfo
+                MessageBox.Show("Вы успешно зашли в аккаунт");
+                GetUserName();
             }
-            if (e.KeyCode == Keys.H && e.Control)
+            else
             {
-                BtnHome_Click(sender, e);
+                MessageBox.Show("Логин или пароль неправильный");
             }
         }
+
+        /// <summary>
+        /// Новый юзер
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonNewAcc_Click(object sender, EventArgs e)
+        {
+            if (txtUsername.Text.Length < 1)
+            {
+                MessageBox.Show("Логин должен быть не короче одного символа");
+                return;
+            }
+            if (txtPassword.Text.Length < 1)
+            {
+                MessageBox.Show("Пароль должен быть не короче одного символа");
+                return;
+            }
+            DataTable dtbl = new DataTable();
+
+            string query = "Select * from Players Where PlayerName = '" + txtUsername.Text.Trim() + "' and Password = '" + txtPassword.Text.Trim() + "'";
+
+            SqlDataAdapter sda = new SqlDataAdapter(query, con);
+
+            sda.Fill(dtbl);
+
+            if (dtbl.Rows.Count == 1)
+            {
+                MessageBox.Show("Такой юзер уже есть");
+            }
+            else//создаём новую запись в players
+            {
+                con.Close();
+                con.Open();
+                cmd = new SqlCommand("select MAX(Id) FROM Players", con);
+                int LastPID = (int)cmd.ExecuteScalar();
+                con.Close();
+
+                cmd = new SqlCommand("insert into Players(Id,PlayerName,Password) values(@Id,@PlayerName,@Password)", con);
+                con.Open();
+                cmd.Parameters.AddWithValue("@Id", LastPID + 1);
+                cmd.Parameters.AddWithValue("@PlayerName", txtUsername.Text.Trim());
+                cmd.Parameters.AddWithValue("@Password", txtPassword.Text.Trim());
+                cmd.ExecuteNonQuery();
+                con.Close();
+                MessageBox.Show("Аккаунт создан успешно");
+            }
+        }
+
+        /// <summary>
+        /// выйти из аккаунта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonLogout_Click(object sender, EventArgs e)
+        {
+            SetUserName(null);
+            MessageBox.Show("Вы успешно вышли из аккаунта");
+            GetUserName();
+        }
+
+        #endregion аккаунт
+
+        #endregion События
     }
 }

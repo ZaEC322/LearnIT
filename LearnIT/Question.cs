@@ -1,8 +1,8 @@
 ﻿using System.Data.SqlTypes;
 
-namespace LearnIT.ClassesAndDB
+namespace LearnIT
 {
-    class Question
+    internal class Question
     {
         public SqlInt32 ID;
         public SqlString QuestionText;

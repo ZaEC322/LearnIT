@@ -1,14 +1,13 @@
 ﻿using System.Data.SqlTypes;
 
-namespace LearnIT.ClassesAndDB
+namespace LearnIT
 {
-    class Choice
+    internal class Choice
     {
         public SqlInt32 ID;
         public SqlInt32 Q_ID;
         public SqlString ChoiceText;
         public SqlBoolean is_Correct;
-
 
         public Choice(SqlInt32 ID, SqlInt32 Q_ID, SqlString ChoiceText, SqlBoolean is_Correct)
         {
@@ -16,7 +15,6 @@ namespace LearnIT.ClassesAndDB
             this.Q_ID = Q_ID;
             this.ChoiceText = ChoiceText;
             this.is_Correct = is_Correct;
-
         }
     }
 }
