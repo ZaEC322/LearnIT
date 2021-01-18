@@ -42,21 +42,22 @@
             this.iconButton_Exit = new FontAwesome.Sharp.IconButton();
             this.lblTitleChildForm = new System.Windows.Forms.Label();
             this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
+            this.label_LogText = new System.Windows.Forms.Label();
             this.panelShadow = new System.Windows.Forms.Panel();
             this.panelDesktop = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_TIME = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonLogout = new System.Windows.Forms.Button();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.buttonNewAcc = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.buttonLogout = new System.Windows.Forms.Button();
+            this.buttonNewAcc = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label_LogText = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -65,6 +66,7 @@
             this.panelDesktop.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -275,6 +277,18 @@
             this.iconCurrentChildForm.TabStop = false;
             this.iconCurrentChildForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IconCurrentChildForm_MouseDown);
             // 
+            // label_LogText
+            // 
+            this.label_LogText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_LogText.AutoEllipsis = true;
+            this.label_LogText.AutoSize = true;
+            this.label_LogText.ForeColor = System.Drawing.Color.White;
+            this.label_LogText.Location = new System.Drawing.Point(767, 25);
+            this.label_LogText.Name = "label_LogText";
+            this.label_LogText.Size = new System.Drawing.Size(271, 17);
+            this.label_LogText.TabIndex = 7;
+            this.label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+            // 
             // panelShadow
             // 
             this.panelShadow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(24)))), ((int)(((byte)(58)))));
@@ -298,12 +312,13 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.02919F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.86636F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.4255F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.47005F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.02765F));
             this.tableLayoutPanel1.Controls.Add(this.label_TIME, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -320,7 +335,7 @@
             this.label_TIME.AutoSize = true;
             this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_TIME.ForeColor = System.Drawing.Color.White;
-            this.label_TIME.Location = new System.Drawing.Point(644, 80);
+            this.label_TIME.Location = new System.Drawing.Point(594, 80);
             this.label_TIME.Name = "label_TIME";
             this.label_TIME.Size = new System.Drawing.Size(0, 55);
             this.label_TIME.TabIndex = 0;
@@ -329,8 +344,8 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.4026F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5974F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.17391F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.82609F));
             this.tableLayoutPanel2.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.buttonLogout, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.txtUsername, 0, 0);
@@ -347,48 +362,18 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(398, 209);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(299, 209);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // txtUsername
+            // label2
             // 
-            this.txtUsername.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtUsername.Location = new System.Drawing.Point(3, 3);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(142, 22);
-            this.txtUsername.TabIndex = 0;
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPassword.Location = new System.Drawing.Point(3, 41);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(142, 22);
-            this.txtPassword.TabIndex = 1;
-            // 
-            // buttonNewAcc
-            // 
-            this.buttonNewAcc.Location = new System.Drawing.Point(3, 170);
-            this.buttonNewAcc.Name = "buttonNewAcc";
-            this.buttonNewAcc.Size = new System.Drawing.Size(142, 36);
-            this.buttonNewAcc.TabIndex = 3;
-            this.buttonNewAcc.Text = "New Account";
-            this.buttonNewAcc.UseVisualStyleBackColor = true;
-            this.buttonNewAcc.Click += new System.EventHandler(this.ButtonNewAcc_Click);
-            // 
-            // buttonLogin
-            // 
-            this.buttonLogin.Location = new System.Drawing.Point(3, 79);
-            this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(142, 38);
-            this.buttonLogin.TabIndex = 2;
-            this.buttonLogin.Text = "Login";
-            this.buttonLogin.UseVisualStyleBackColor = true;
-            this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(158, 38);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Password";
             // 
             // buttonLogout
             // 
@@ -400,47 +385,77 @@
             this.buttonLogout.UseVisualStyleBackColor = true;
             this.buttonLogout.Click += new System.EventHandler(this.ButtonLogout_Click);
             // 
+            // txtUsername
+            // 
+            this.txtUsername.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtUsername.Location = new System.Drawing.Point(3, 3);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(149, 22);
+            this.txtUsername.TabIndex = 0;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtPassword.Location = new System.Drawing.Point(3, 41);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(149, 22);
+            this.txtPassword.TabIndex = 1;
+            // 
+            // buttonLogin
+            // 
+            this.buttonLogin.Location = new System.Drawing.Point(3, 79);
+            this.buttonLogin.Name = "buttonLogin";
+            this.buttonLogin.Size = new System.Drawing.Size(142, 38);
+            this.buttonLogin.TabIndex = 2;
+            this.buttonLogin.Text = "Login";
+            this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
+            // 
+            // buttonNewAcc
+            // 
+            this.buttonNewAcc.Location = new System.Drawing.Point(3, 170);
+            this.buttonNewAcc.Name = "buttonNewAcc";
+            this.buttonNewAcc.Size = new System.Drawing.Size(142, 36);
+            this.buttonNewAcc.TabIndex = 3;
+            this.buttonNewAcc.Text = "New Account";
+            this.buttonNewAcc.UseVisualStyleBackColor = true;
+            this.buttonNewAcc.Click += new System.EventHandler(this.ButtonNewAcc_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(151, 0);
+            this.label1.Location = new System.Drawing.Point(158, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Name";
             // 
-            // label2
+            // timer1
             // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(151, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 17);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Password";
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // label_LogText
+            // button1
             // 
-            this.label_LogText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_LogText.AutoEllipsis = true;
-            this.label_LogText.AutoSize = true;
-            this.label_LogText.ForeColor = System.Drawing.Color.White;
-            this.label_LogText.Location = new System.Drawing.Point(767, 25);
-            this.label_LogText.Name = "label_LogText";
-            this.label_LogText.Size = new System.Drawing.Size(271, 17);
-            this.label_LogText.TabIndex = 7;
-            this.label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+            this.button1.Location = new System.Drawing.Point(887, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label3
+            // dataGridView1
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(407, 215);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(463, 34);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Тут выводить таблицу с результатми в виде грида с никами игроков вместо FK на id";
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 3);
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 218);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(1296, 454);
+            this.dataGridView1.TabIndex = 4;
             // 
             // FormMainMenu
             // 
@@ -466,6 +481,7 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -498,7 +514,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_LogText;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

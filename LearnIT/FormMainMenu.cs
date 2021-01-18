@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LearnIT
@@ -480,5 +479,22 @@ namespace LearnIT
         #endregion аккаунт
 
         #endregion События
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("select RT.Id,RT.GameResult,RT.GameDate,RT.PlayerName_FK,RT.PackName,RT.Time,PT.Id,PT.PlayerName,PT.Password from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id", con);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            string select = "select RT.GameResult,RT.GameDate,RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(select, con);
+            _ = new SqlCommandBuilder(dataAdapter);
+            DataSet ds = new DataSet();
+            dataAdapter.Fill(ds);
+            dataGridView1.ReadOnly = true;
+            dataGridView1.DataSource = ds.Tables[0];
+        }
     }
 }
