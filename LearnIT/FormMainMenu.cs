@@ -84,6 +84,21 @@ namespace LearnIT
         }
 
         /// <summary>
+        /// показываем таблицу результат
+        /// </summary>
+        private void LoadResults()
+        {
+            const string select = "select RT.GameResult,RT.GameDate,RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(select, con);
+            _ = new SqlCommandBuilder(dataAdapter);
+            DataSet ds = new DataSet();
+            dataAdapter.Fill(ds);
+            dataGridView1.ReadOnly = true;
+            dataGridView1.DataSource = ds.Tables[0];
+        }
+
+        /// <summary>
         /// Изменение вида кнопки после нажатия на неё придавая ей цвет и смещая содержимое чтобы
         /// было понятно что она нажата.
         /// </summary>
@@ -197,14 +212,24 @@ namespace LearnIT
         /// </summary>
         private void GetUserName()
         {
-            int temp;
+            int? temp;
             cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
             con.Open();
             try
             {
                 temp = (int)cmd.ExecuteScalar();
             }
+            catch (NullReferenceException)
+            {
+                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                return;
+            }
             catch (InvalidCastException)
+            {
+                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                return;
+            }
+            catch (Exception)
             {
                 label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
                 return;
@@ -250,6 +275,11 @@ namespace LearnIT
             {
                 BtnHome_Click(sender, e);
             }
+        }
+
+        private void FormMainMenu_Load(object sender, EventArgs e)
+        {
+            LoadResults();
         }
 
         #region Кнопки на левой панели
@@ -423,12 +453,12 @@ namespace LearnIT
         /// <param name="e"></param>
         private void ButtonNewAcc_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text.Length < 1)
+            if (txtUsername.Text.Length < 1 || txtUsername.Text == "Введите логин")
             {
                 MessageBox.Show("Логин должен быть не короче одного символа");
                 return;
             }
-            if (txtPassword.Text.Length < 1)
+            if (txtPassword.Text.Length < 1 || txtPassword.Text == "Введите пароль")
             {
                 MessageBox.Show("Пароль должен быть не короче одного символа");
                 return;
@@ -482,19 +512,43 @@ namespace LearnIT
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cmd = new SqlCommand("select RT.Id,RT.GameResult,RT.GameDate,RT.PlayerName_FK,RT.PackName,RT.Time,PT.Id,PT.PlayerName,PT.Password from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id", con);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
+            LoadResults();
+        }
 
-            string select = "select RT.GameResult,RT.GameDate,RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
+        private void txtUsername_Enter(object sender, EventArgs e)
+        {
+            if (txtUsername.Text == "Введите логин")
+            {
+                txtUsername.ForeColor = Color.Black;
+                txtUsername.Text = "";
+            }
+        }
 
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(select, con);
-            _ = new SqlCommandBuilder(dataAdapter);
-            DataSet ds = new DataSet();
-            dataAdapter.Fill(ds);
-            dataGridView1.ReadOnly = true;
-            dataGridView1.DataSource = ds.Tables[0];
+        private void txtUsername_Leave(object sender, EventArgs e)
+        {
+            if (txtUsername.Text.Length == 0)
+            {
+                txtUsername.ForeColor = Color.BlueViolet;
+                txtUsername.Text = "Введите логин";
+            }
+        }
+
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            if (txtPassword.Text == "Введите пароль")
+            {
+                txtPassword.ForeColor = Color.Black;
+                txtPassword.Text = "";
+            }
+        }
+
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (txtPassword.Text.Length == 0)
+            {
+                txtPassword.ForeColor = Color.BlueViolet;
+                txtPassword.Text = "Введите пароль";
+            }
         }
     }
 }

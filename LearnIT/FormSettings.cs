@@ -96,6 +96,10 @@ namespace LearnIT
             con.Close();
         }
 
+        /// <summary>
+        /// Устанавливает название для текущей базы
+        /// </summary>
+        /// <param name="name"></param>
         private void SetPackName(string name)
         {
             cmd = new SqlCommand("UPDATE CurrentPackInfo SET PackName = @PackName WHERE Id = @id", con);
@@ -104,10 +108,12 @@ namespace LearnIT
             cmd.Parameters.AddWithValue("@id", 1);
             cmd.ExecuteNonQuery();
             con.Close();
-
-            // textBox_CurrentDBName.Text = GetPackName();
         }
 
+        /// <summary>
+        /// получает название текущей базы
+        /// </summary>
+        /// <returns>название текущей базы</returns>
         private string GetPackName()
         {
             string temp;
@@ -116,8 +122,7 @@ namespace LearnIT
 
             temp = (string)cmd.ExecuteScalar();
             con.Close();
-            textBox_CurrentDBName.Text = temp;
-            // MessageBox.Show(temp);
+            textBox_dbname.Text = temp;
             return temp;
         }
 

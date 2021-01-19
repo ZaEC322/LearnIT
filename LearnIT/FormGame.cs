@@ -640,15 +640,6 @@ namespace LearnIT
         {
             int? UserID;//для id игрока
 
-            //для генерирования след. id
-            con.Open();
-            cmd = new SqlCommand("select MAX(Id) FROM ResultLog", con);
-            int LastRID = (int)cmd.ExecuteScalar() + 1;
-            con.Close();
-
-            //дата и время игры
-            DateTime myDateTime = DateTime.Now;
-
             //записываем id игрока
             cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
             con.Open();
@@ -663,6 +654,17 @@ namespace LearnIT
 
             con.Close();
 
+            if (UserID == null) return; //если юзер не залогинен то результат не записываем
+
+            //для генерирования след. id
+            con.Open();
+            cmd = new SqlCommand("select MAX(Id) FROM ResultLog", con);
+            int LastRID = (int)cmd.ExecuteScalar() + 1;
+            con.Close();
+
+            //дата и время игры
+            DateTime myDateTime = DateTime.Now;
+
             //название пака
             cmd = new SqlCommand("Select PackName from CurrentPackInfo", con);
             con.Open();
@@ -676,15 +678,7 @@ namespace LearnIT
             cmd.Parameters.AddWithValue("@Id", LastRID);
             cmd.Parameters.AddWithValue("@GameResult", CorrectCounter * 100 / questCount);
             cmd.Parameters.AddWithValue("@GameDate", myDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
-            if (UserID == null)
-            {
-                cmd.Parameters.AddWithValue("@PlayerName_FK", DBNull.Value);
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue("@PlayerName_FK", UserID);
-            }
-
+            cmd.Parameters.AddWithValue("@PlayerName_FK", UserID);
             cmd.Parameters.AddWithValue("@PackName", packname);
             cmd.Parameters.AddWithValue("@Time", _ticks);
             cmd.ExecuteNonQuery();
