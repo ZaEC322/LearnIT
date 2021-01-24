@@ -46,7 +46,6 @@
             this.panelShadow = new System.Windows.Forms.Panel();
             this.panelDesktop = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label_TIME = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.txtUsername = new System.Windows.Forms.TextBox();
@@ -54,8 +53,9 @@
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonNewAcc = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.label_TIME = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -327,18 +327,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1302, 769);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // label_TIME
-            // 
-            this.label_TIME.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label_TIME.AutoSize = true;
-            this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_TIME.ForeColor = System.Drawing.Color.White;
-            this.label_TIME.Location = new System.Drawing.Point(1060, 80);
-            this.label_TIME.Name = "label_TIME";
-            this.label_TIME.Size = new System.Drawing.Size(0, 55);
-            this.label_TIME.TabIndex = 0;
-            this.label_TIME.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -434,10 +422,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1296, 454);
             this.dataGridView1.TabIndex = 4;
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -448,6 +432,22 @@
             this.button1.Text = "Обновить результаты";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label_TIME
+            // 
+            this.label_TIME.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_TIME.AutoSize = true;
+            this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_TIME.ForeColor = System.Drawing.Color.White;
+            this.label_TIME.Location = new System.Drawing.Point(1060, 80);
+            this.label_TIME.Name = "label_TIME";
+            this.label_TIME.Size = new System.Drawing.Size(0, 55);
+            this.label_TIME.TabIndex = 0;
+            this.label_TIME.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // FormMainMenu
             // 
