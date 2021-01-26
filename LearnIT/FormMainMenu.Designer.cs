@@ -56,6 +56,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label_TIME = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.button2 = new System.Windows.Forms.Button();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -310,20 +312,22 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.18894F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.79109F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.09678F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.35791F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.29186F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.42703F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label_TIME, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button2, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.checkedListBox1, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.95839F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 59.81794F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.09363F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.19896F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.972692F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1302, 769);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -345,7 +349,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(347, 209);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(219, 208);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // buttonLogout
@@ -362,9 +366,10 @@
             // txtUsername
             // 
             this.txtUsername.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtUsername.Location = new System.Drawing.Point(3, 3);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(341, 22);
+            this.txtUsername.Size = new System.Drawing.Size(213, 27);
             this.txtUsername.TabIndex = 0;
             this.txtUsername.Text = "Введите логин";
             this.txtUsername.Enter += new System.EventHandler(this.txtUsername_Enter);
@@ -373,9 +378,10 @@
             // txtPassword
             // 
             this.txtPassword.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtPassword.Location = new System.Drawing.Point(3, 41);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(341, 22);
+            this.txtPassword.Size = new System.Drawing.Size(213, 27);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.Text = "Введите пароль";
             this.txtPassword.Enter += new System.EventHandler(this.txtPassword_Enter);
@@ -397,7 +403,7 @@
             this.buttonNewAcc.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonNewAcc.Location = new System.Drawing.Point(3, 167);
             this.buttonNewAcc.Name = "buttonNewAcc";
-            this.buttonNewAcc.Size = new System.Drawing.Size(170, 39);
+            this.buttonNewAcc.Size = new System.Drawing.Size(170, 38);
             this.buttonNewAcc.TabIndex = 3;
             this.buttonNewAcc.Text = "Создать новый";
             this.buttonNewAcc.UseVisualStyleBackColor = true;
@@ -415,19 +421,19 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 3);
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 218);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 217);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1296, 454);
+            this.dataGridView1.Size = new System.Drawing.Size(1296, 479);
             this.dataGridView1.TabIndex = 4;
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(3, 678);
+            this.button1.Location = new System.Drawing.Point(3, 702);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(347, 88);
+            this.button1.Size = new System.Drawing.Size(219, 64);
             this.button1.TabIndex = 5;
             this.button1.Text = "Обновить результаты";
             this.button1.UseVisualStyleBackColor = true;
@@ -439,7 +445,7 @@
             this.label_TIME.AutoSize = true;
             this.label_TIME.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_TIME.ForeColor = System.Drawing.Color.White;
-            this.label_TIME.Location = new System.Drawing.Point(1060, 80);
+            this.label_TIME.Location = new System.Drawing.Point(1155, 79);
             this.label_TIME.Name = "label_TIME";
             this.label_TIME.Size = new System.Drawing.Size(0, 55);
             this.label_TIME.TabIndex = 0;
@@ -448,6 +454,26 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Location = new System.Drawing.Point(1012, 702);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(287, 64);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Сбросить результаты";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(228, 702);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(778, 64);
+            this.checkedListBox1.TabIndex = 7;
             // 
             // FormMainMenu
             // 
@@ -507,6 +533,8 @@
         private System.Windows.Forms.Label label_LogText;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
 

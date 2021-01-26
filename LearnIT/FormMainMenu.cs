@@ -259,19 +259,19 @@ namespace LearnIT
         /// <param name="e"></param>
         private void FormMainMenu_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.G)
+            if (e.KeyCode == Keys.F1)
             {
                 iconButton_Game.PerformClick();
             }
-            if (e.KeyCode == Keys.A && e.Control)
+            if (e.KeyCode == Keys.F2)
             {
                 iconButton_About.PerformClick();
             }
-            if (e.KeyCode == Keys.S && e.Control)
+            if (e.KeyCode == Keys.F3)
             {
                 iconButton_Settings.PerformClick();
             }
-            if (e.KeyCode == Keys.H && e.Control)
+            if (e.KeyCode == Keys.F4)
             {
                 BtnHome_Click(sender, e);
             }
@@ -549,6 +549,10 @@ namespace LearnIT
                 txtPassword.ForeColor = Color.BlueViolet;
                 txtPassword.Text = "Введите пароль";
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
         }
     }
 }
