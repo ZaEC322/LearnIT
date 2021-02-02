@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.iconButton_About = new FontAwesome.Sharp.IconButton();
@@ -55,9 +58,10 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.label_TIME = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonDropCurrentUserResults = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -67,6 +71,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -319,8 +324,9 @@
             this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label_TIME, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button2, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonDropCurrentUserResults, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.checkedListBox1, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.chart1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -451,20 +457,16 @@
             this.label_TIME.TabIndex = 0;
             this.label_TIME.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // timer1
+            // buttonDropCurrentUserResults
             // 
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(1012, 702);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(287, 64);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Сбросить результаты";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonDropCurrentUserResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonDropCurrentUserResults.Location = new System.Drawing.Point(1012, 702);
+            this.buttonDropCurrentUserResults.Name = "buttonDropCurrentUserResults";
+            this.buttonDropCurrentUserResults.Size = new System.Drawing.Size(287, 64);
+            this.buttonDropCurrentUserResults.TabIndex = 6;
+            this.buttonDropCurrentUserResults.Text = "Сбросить результаты";
+            this.buttonDropCurrentUserResults.UseVisualStyleBackColor = true;
+            this.buttonDropCurrentUserResults.Click += new System.EventHandler(this.buttonDropCurrentUserResults_Click);
             // 
             // checkedListBox1
             // 
@@ -474,6 +476,28 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(778, 64);
             this.checkedListBox1.TabIndex = 7;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(228, 3);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(778, 208);
+            this.chart1.TabIndex = 8;
+            this.chart1.Text = "chart1";
             // 
             // FormMainMenu
             // 
@@ -501,6 +525,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -533,8 +558,9 @@
         private System.Windows.Forms.Label label_LogText;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonDropCurrentUserResults;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 

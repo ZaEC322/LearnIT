@@ -241,6 +241,30 @@ namespace LearnIT
             con.Close();
         }
 
+        private int? GetCurrentUserID()
+        {
+            int? temp;
+            cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
+            con.Open();
+            try
+            {
+                temp = (int)cmd.ExecuteScalar();
+            }
+            catch (NullReferenceException)
+            {
+                return null;
+            }
+            catch (InvalidCastException)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return temp;
+        }
+
         #endregion Рабочие методы
 
         #region События
@@ -551,8 +575,23 @@ namespace LearnIT
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonDropCurrentUserResults_Click(object sender, EventArgs e)
         {
+            int? temp = GetCurrentUserID();
+            if (temp == null)
+            {
+                MessageBox.Show("Удалять нечего");
+            }
+            else
+            {
+                cmd = new SqlCommand("DELETE FROM ResultLog WHERE PlayerName_FK = @PlayerName_FK", con);
+                con.Close();
+                con.Open();
+                cmd.Parameters.AddWithValue("@PlayerName_FK", temp);
+                cmd.ExecuteNonQuery();
+                con.Close();
+                LoadResults();
+            }
         }
     }
 }
