@@ -56,12 +56,12 @@
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonNewAcc = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_Update = new System.Windows.Forms.Button();
             this.label_TIME = new System.Windows.Forms.Label();
             this.buttonDropCurrentUserResults = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
@@ -322,7 +322,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.42703F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.button_Update, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label_TIME, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonDropCurrentUserResults, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.checkedListBox1, 1, 2);
@@ -434,16 +434,16 @@
             this.dataGridView1.Size = new System.Drawing.Size(1296, 479);
             this.dataGridView1.TabIndex = 4;
             // 
-            // button1
+            // button_Update
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(3, 702);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(219, 64);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Обновить результаты";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_Update.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Update.Location = new System.Drawing.Point(3, 702);
+            this.button_Update.Name = "button_Update";
+            this.button_Update.Size = new System.Drawing.Size(219, 64);
+            this.button_Update.TabIndex = 5;
+            this.button_Update.Text = "Обновить результаты";
+            this.button_Update.UseVisualStyleBackColor = true;
+            this.button_Update.Click += new System.EventHandler(this.button_Update_Click);
             // 
             // label_TIME
             // 
@@ -477,10 +477,6 @@
             this.checkedListBox1.Size = new System.Drawing.Size(778, 64);
             this.checkedListBox1.TabIndex = 7;
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";
@@ -498,6 +494,10 @@
             this.chart1.Size = new System.Drawing.Size(778, 208);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // FormMainMenu
             // 
@@ -557,7 +557,7 @@
         private System.Windows.Forms.Button buttonLogout;
         private System.Windows.Forms.Label label_LogText;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Update;
         private System.Windows.Forms.Button buttonDropCurrentUserResults;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;

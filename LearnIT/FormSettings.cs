@@ -86,6 +86,23 @@ namespace LearnIT
         #region Рабочие методы
 
         /// <summary>
+        /// всплывающие подсказки
+        /// </summary>
+        /// <param name="controlForToolTip"></param>
+        /// <param name="toolTipText"></param>
+        private void CreateToolTip(Control controlForToolTip, string toolTipText)
+        {
+            ToolTip toolTip = new ToolTip
+            {
+                Active = true,
+                IsBalloon = true
+            };
+            toolTip.SetToolTip(controlForToolTip, toolTipText);
+        }
+
+        #region get/sets
+
+        /// <summary>
         /// Получаем установленное время для игры из бд
         /// </summary>
         private void GetPackTime()
@@ -127,21 +144,6 @@ namespace LearnIT
         }
 
         /// <summary>
-        /// всплывающие подсказки
-        /// </summary>
-        /// <param name="controlForToolTip"></param>
-        /// <param name="toolTipText"></param>
-        private void CreateToolTip(Control controlForToolTip, string toolTipText)
-        {
-            ToolTip toolTip = new ToolTip
-            {
-                Active = true,
-                IsBalloon = true
-            };
-            toolTip.SetToolTip(controlForToolTip, toolTipText);
-        }
-
-        /// <summary>
         /// Устанавливает свойства внешний вид гридов.
         /// </summary>
         private void SetGridsAppearence()
@@ -162,6 +164,35 @@ namespace LearnIT
             dataGridView_Questions.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGray;
             dataGridView_Choices.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGray;
         }
+
+        /// <summary>
+        /// выбирает самое большое id, оно же и последнее. Нужно для корректного перемещения выделения
+        /// </summary>
+        /// <param name="i">0 - присвоит lastQID И CID как 0. 1 - сделать запрос MAX в базу</param>
+        private void GetLastIDFromQC(int i)
+        {
+            if (i == 0)
+            {
+                LastQID = 0;
+                LastCID = 0;
+                return;
+            }
+            con.Open();
+            try
+            {
+                cmd = new SqlCommand("select MAX(Question_ID) FROM Questions", con);
+                LastQID = (int)cmd.ExecuteScalar();
+
+                cmd = new SqlCommand("select MAX(Choice_ID) FROM Choices", con);
+                LastCID = (int)cmd.ExecuteScalar();
+            }
+            catch (Exception) { }
+            con.Close();
+        }
+
+        #endregion get/sets
+
+        #region заполнение + вывод бд + обновление
 
         /// <summary>
         /// Получает все данные из таблицы
@@ -213,31 +244,6 @@ namespace LearnIT
         }
 
         /// <summary>
-        /// выбирает самое большое id, оно же и последнее. Нужно для корректного перемещения выделения
-        /// </summary>
-        /// <param name="i">0 - присвоит lastQID И CID как 0. 1 - сделать запрос MAX в базу</param>
-        private void GetLastIDFromQC(int i)
-        {
-            if (i == 0)
-            {
-                LastQID = 0;
-                LastCID = 0;
-                return;
-            }
-            con.Open();
-            try
-            {
-                cmd = new SqlCommand("select MAX(Question_ID) FROM Questions", con);
-                LastQID = (int)cmd.ExecuteScalar();
-
-                cmd = new SqlCommand("select MAX(Choice_ID) FROM Choices", con);
-                LastCID = (int)cmd.ExecuteScalar();
-            }
-            catch (Exception) { }
-            con.Close();
-        }
-
-        /// <summary>
         /// Обновляет все записи всех таблиц - загружает в память базы проги.
         /// </summary>
         private void UpdateThis()
@@ -284,6 +290,8 @@ namespace LearnIT
                 //иногда выскакивают ошибки тут, не влияет на работу программы
             }
         }
+
+        #endregion заполнение + вывод бд + обновление
 
         #endregion Рабочие методы
 

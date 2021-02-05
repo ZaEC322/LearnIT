@@ -380,7 +380,7 @@ namespace LearnIT
             SqlCommand cmd = new SqlCommand
             {
                 CommandType = CommandType.StoredProcedure,
-                CommandText = "[Procedure1]",
+                CommandText = "[ProcedureGetChoicesByQuestionID]",
                 Connection = con
             };
 

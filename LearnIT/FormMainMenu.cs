@@ -74,16 +74,6 @@ namespace LearnIT
         #region Рабочие методы
 
         /// <summary>
-        /// мусор
-        /// </summary>
-        public static void GarbageC()
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-        }
-
-        /// <summary>
         /// показываем таблицу результат
         /// </summary>
         private void LoadResults()
@@ -91,12 +81,13 @@ namespace LearnIT
             const string select = "select RT.GameResult,RT.GameDate,RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(select, con);
-            _ = new SqlCommandBuilder(dataAdapter);
             DataSet ds = new DataSet();
             dataAdapter.Fill(ds);
             dataGridView1.ReadOnly = true;
             dataGridView1.DataSource = ds.Tables[0];
         }
+
+        #region управление дочерними формами
 
         /// <summary>
         /// Изменение вида кнопки после нажатия на неё придавая ей цвет и смещая содержимое чтобы
@@ -170,7 +161,6 @@ namespace LearnIT
 
             childForm.Show();//и показываем её
             lblTitleChildForm.Text = childForm.Text;//выводим название дочерней формы сверху.
-            GarbageC();
         }
 
         /// <summary>
@@ -184,6 +174,10 @@ namespace LearnIT
             iconCurrentChildForm.IconColor = Color.MediumPurple;
             lblTitleChildForm.Text = "Домашня сторінка";
         }
+
+        #endregion управление дочерними формами
+
+        #region get/set
 
         /// <summary>
         /// Установить id текущего игрока для которого ведутся записи результатов
@@ -218,6 +212,7 @@ namespace LearnIT
             try
             {
                 temp = (int)cmd.ExecuteScalar();
+                con.Close();
             }
             catch (NullReferenceException)
             {
@@ -234,21 +229,27 @@ namespace LearnIT
                 label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
                 return;
             }
-
+            con.Open();
             cmd = new SqlCommand("Select PlayerName from Players Where Id = @Id", con);
             cmd.Parameters.AddWithValue("@Id", temp);
             label_LogText.Text = "Привет, " + (string)cmd.ExecuteScalar();
             con.Close();
         }
 
+        /// <summary>
+        /// Получить ID ТЕКУЩЕГО пользователя(игрока)
+        /// </summary>
+        /// <returns></returns>
         private int? GetCurrentUserID()
         {
             int? temp;
             cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
+            con.Close();
             con.Open();
             try
             {
                 temp = (int)cmd.ExecuteScalar();
+                con.Close();
             }
             catch (NullReferenceException)
             {
@@ -265,9 +266,13 @@ namespace LearnIT
             return temp;
         }
 
+        #endregion get/set
+
         #endregion Рабочие методы
 
         #region События
+
+        #region разное
 
         /// <summary>
         /// часы на дом. форме
@@ -277,7 +282,7 @@ namespace LearnIT
         private void Timer1_Tick(object sender, EventArgs e) => label_TIME.Text = DateTime.Now.ToString();
 
         /// <summary>
-        /// Шорткаты(наверное убрать их потому-что не удобно)
+        /// Шорткаты
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -305,6 +310,51 @@ namespace LearnIT
         {
             LoadResults();
         }
+
+        #endregion разное
+
+        #region результаты
+
+        /// <summary>
+        /// Обновить таблицу результаты
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_Update_Click(object sender, EventArgs e)
+        {
+            LoadResults();
+        }
+
+        /// <summary>
+        /// Сбросить резульаты текущего пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonDropCurrentUserResults_Click(object sender, EventArgs e)
+        {
+            int? temp = GetCurrentUserID();
+            if (temp == null)
+            {
+                MessageBox.Show("Войдите в аккаунт");
+            }
+            else
+            {
+                DialogResult dialogResult = MessageBox.Show("Данное действие удалит все результаты текщего пользователя" +
+                    ".\nЖелаете продолжить?", "ВНИМАНИЕ!", MessageBoxButtons.YesNo);
+                if (dialogResult != DialogResult.No)
+                {
+                    cmd = new SqlCommand("DELETE FROM ResultLog WHERE PlayerName_FK = @PlayerName_FK", con);
+                    con.Close();
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@PlayerName_FK", temp);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    LoadResults();
+                }
+            }
+        }
+
+        #endregion результаты
 
         #region Кнопки на левой панели
 
@@ -431,6 +481,72 @@ namespace LearnIT
 
         #region аккаунт
 
+        #region подсказка для юзера
+
+        /// <summary>
+        /// Подсказка для юзера, когда текстбох для логина выбирается пользователем то стираем
+        /// введите логин
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtUsername_Enter(object sender, EventArgs e)
+        {
+            if (txtUsername.Text == "Введите логин")
+            {
+                txtUsername.ForeColor = Color.Black;
+                txtUsername.Text = "";
+            }
+        }
+
+        /// <summary>
+        /// Подсказка для юзера, когда снимается выбор текстбокса для логина то записываем в
+        /// текстбокс Введите логин
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtUsername_Leave(object sender, EventArgs e)
+        {
+            if (txtUsername.Text.Length == 0)
+            {
+                txtUsername.ForeColor = Color.BlueViolet;
+                txtUsername.Text = "Введите логин";
+            }
+        }
+
+        /// <summary>
+        /// Подсказка для юзера, когда текстбох для пароля выбирается пользователем то стираем
+        /// введите пароль
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            if (txtPassword.Text == "Введите пароль")
+            {
+                txtPassword.ForeColor = Color.Black;
+                txtPassword.Text = "";
+            }
+        }
+
+        /// <summary>
+        /// Подсказка для юзера, когда снимается выбор текстбокса для пароля то записываем в
+        /// текстбокс Введите пароль
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (txtPassword.Text.Length == 0)
+            {
+                txtPassword.ForeColor = Color.BlueViolet;
+                txtPassword.Text = "Введите пароль";
+            }
+        }
+
+        #endregion подсказка для юзера
+
+        #region кнопки
+
         /// <summary>
         /// Логин
         /// </summary>
@@ -530,68 +646,10 @@ namespace LearnIT
             GetUserName();
         }
 
+        #endregion кнопки
+
         #endregion аккаунт
 
         #endregion События
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            LoadResults();
-        }
-
-        private void txtUsername_Enter(object sender, EventArgs e)
-        {
-            if (txtUsername.Text == "Введите логин")
-            {
-                txtUsername.ForeColor = Color.Black;
-                txtUsername.Text = "";
-            }
-        }
-
-        private void txtUsername_Leave(object sender, EventArgs e)
-        {
-            if (txtUsername.Text.Length == 0)
-            {
-                txtUsername.ForeColor = Color.BlueViolet;
-                txtUsername.Text = "Введите логин";
-            }
-        }
-
-        private void txtPassword_Enter(object sender, EventArgs e)
-        {
-            if (txtPassword.Text == "Введите пароль")
-            {
-                txtPassword.ForeColor = Color.Black;
-                txtPassword.Text = "";
-            }
-        }
-
-        private void txtPassword_Leave(object sender, EventArgs e)
-        {
-            if (txtPassword.Text.Length == 0)
-            {
-                txtPassword.ForeColor = Color.BlueViolet;
-                txtPassword.Text = "Введите пароль";
-            }
-        }
-
-        private void buttonDropCurrentUserResults_Click(object sender, EventArgs e)
-        {
-            int? temp = GetCurrentUserID();
-            if (temp == null)
-            {
-                MessageBox.Show("Удалять нечего");
-            }
-            else
-            {
-                cmd = new SqlCommand("DELETE FROM ResultLog WHERE PlayerName_FK = @PlayerName_FK", con);
-                con.Close();
-                con.Open();
-                cmd.Parameters.AddWithValue("@PlayerName_FK", temp);
-                cmd.ExecuteNonQuery();
-                con.Close();
-                LoadResults();
-            }
-        }
     }
 }
