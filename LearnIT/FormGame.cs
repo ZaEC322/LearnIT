@@ -14,7 +14,7 @@ namespace LearnIT
         #region оптимизация отображения контролов
 
         /// <summary>
-        /// Хз как работает но контролы отображаються корректно
+        /// контролы отображаються корректно
         /// </summary>
         protected override CreateParams CreateParams
         {
@@ -369,6 +369,8 @@ namespace LearnIT
 
         #region рабочие методы
 
+        #region заполнение из бд
+
         /// <summary>
         /// Заполнение листа ответов
         /// </summary>
@@ -438,7 +440,7 @@ namespace LearnIT
             cmd = new SqlCommand
             {
                 CommandType = CommandType.StoredProcedure,
-                CommandText = "[Procedure2]",
+                CommandText = "[ProcedureGetAllQuestions]",
                 Connection = con
             };
             con.Open();
@@ -477,6 +479,10 @@ namespace LearnIT
             }
         }
 
+        #endregion заполнение из бд
+
+        #region get/sets
+
         /// <summary>
         /// Записывает в timeLimit время для игры с базы
         /// </summary>
@@ -488,6 +494,62 @@ namespace LearnIT
             timeLimit = (int)cmd.ExecuteScalar();
             con.Close();
         }
+
+        /// <summary>
+        /// Записываем результат игры в бд
+        /// </summary>
+        private void SetGameResult()
+        {
+            int? UserID;//для id игрока
+
+            //записываем id игрока
+            cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
+            con.Open();
+            try
+            {
+                UserID = (int?)cmd.ExecuteScalar();
+            }
+            catch (InvalidCastException)
+            {
+                UserID = null;
+            }
+
+            con.Close();
+
+            if (UserID == null) return; //если юзер не залогинен то результат не записываем
+
+            //для генерирования след. id
+            con.Open();
+            cmd = new SqlCommand("select MAX(Id) FROM ResultLog", con);
+            int LastRID = (int)cmd.ExecuteScalar() + 1;
+            con.Close();
+
+            //дата и время игры
+            DateTime myDateTime = DateTime.Now;
+
+            //название пака
+            cmd = new SqlCommand("Select PackName from CurrentPackInfo", con);
+            con.Open();
+
+            string packname = (string)cmd.ExecuteScalar();
+            con.Close();
+
+            //и вставляем всё это в бд
+            cmd = new SqlCommand("insert into ResultLog(Id,GameResult,GameDate,PlayerName_FK,PackName,Time) values(@Id,@GameResult,@GameDate,@PlayerName_FK,@PackName,@Time)", con);
+            con.Open();
+            cmd.Parameters.AddWithValue("@Id", LastRID);
+            cmd.Parameters.AddWithValue("@GameResult", CorrectCounter * 100 / questCount);
+            cmd.Parameters.AddWithValue("@GameDate", myDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@PlayerName_FK", UserID);
+            cmd.Parameters.AddWithValue("@PackName", packname);
+            cmd.Parameters.AddWithValue("@Time", _ticks);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        #endregion get/sets
+
+        #region game
 
         /// <summary>
         /// В зависимости от правильсности выбраного ответа возвращаем тру если верный или фолс если неверный
@@ -633,57 +695,7 @@ namespace LearnIT
             SetGameResult();
         }
 
-        /// <summary>
-        /// Записываем результат игры в бд
-        /// </summary>
-        private void SetGameResult()
-        {
-            int? UserID;//для id игрока
-
-            //записываем id игрока
-            cmd = new SqlCommand("Select CurrentPlayerName_FK from CurrentPackInfo", con);
-            con.Open();
-            try
-            {
-                UserID = (int?)cmd.ExecuteScalar();
-            }
-            catch (InvalidCastException)
-            {
-                UserID = null;
-            }
-
-            con.Close();
-
-            if (UserID == null) return; //если юзер не залогинен то результат не записываем
-
-            //для генерирования след. id
-            con.Open();
-            cmd = new SqlCommand("select MAX(Id) FROM ResultLog", con);
-            int LastRID = (int)cmd.ExecuteScalar() + 1;
-            con.Close();
-
-            //дата и время игры
-            DateTime myDateTime = DateTime.Now;
-
-            //название пака
-            cmd = new SqlCommand("Select PackName from CurrentPackInfo", con);
-            con.Open();
-
-            string packname = (string)cmd.ExecuteScalar();
-            con.Close();
-
-            //и вставляем всё это в бд
-            cmd = new SqlCommand("insert into ResultLog(Id,GameResult,GameDate,PlayerName_FK,PackName,Time) values(@Id,@GameResult,@GameDate,@PlayerName_FK,@PackName,@Time)", con);
-            con.Open();
-            cmd.Parameters.AddWithValue("@Id", LastRID);
-            cmd.Parameters.AddWithValue("@GameResult", CorrectCounter * 100 / questCount);
-            cmd.Parameters.AddWithValue("@GameDate", myDateTime.ToString("yyyy-MM-dd HH:mm:ss"));
-            cmd.Parameters.AddWithValue("@PlayerName_FK", UserID);
-            cmd.Parameters.AddWithValue("@PackName", packname);
-            cmd.Parameters.AddWithValue("@Time", _ticks);
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
+        #endregion game
 
         /// <summary>
         /// горячие клавишы
