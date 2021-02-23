@@ -75,18 +75,95 @@ namespace LearnIT
 
         #region Рабочие методы
 
+        private DataTable PlayerNames()
+        {
+            //const string cmd = "select Id, PlayerName from Players";
+            const string cmd = "select Id, PlayerName from Players";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd, con);
+            DataTable dt = new DataTable();
+            dataAdapter.Fill(dt);
+            dt.TableName = "Players";
+            return dt;
+        }
+
+        private DataTable Results()
+        {
+            //const string cmd = "select RT.GameResult,RT.GameDate, RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
+            const string cmd = "select GameResult, GameDate, PackName, Time, PlayerName_FK from ResultLog";
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd, con);
+            DataTable dt = new DataTable();
+            dataAdapter.Fill(dt);
+            dt.TableName = "Results";
+            return dt;
+        }
+
+        /// <summary>
+        /// Выводит данные из таблицы Questions и по внешнему ключу выводит ответы к вопросу из
+        /// таблицы Choices.
+        /// </summary>
+      /*  private void DisplayData()
+        {
+            set = new DataSet();
+            DataTable QuestionsTable = FillDataTable("Questions");
+            DataTable ChoicesTable = FillDataTable("Choices");
+
+            QuestionsTable.TableName = "Questions";
+            ChoicesTable.TableName = "Choices";
+            set.Tables.Add(QuestionsTable);
+            set.Tables.Add(ChoicesTable);
+
+            set.Relations.Add("QCRealations", QuestionsTable.Columns["Question_ID"], ChoicesTable.Columns["FK_Question_ID"]);
+
+            BindingSource masterBinding = new BindingSource
+            {
+                DataSource = set,
+                DataMember = "Questions"
+            };
+
+            dataGridView_Questions.DataSource = masterBinding;
+            dataGridView_Choices.DataSource = masterBinding;
+
+            dataGridView_Choices.DataMember = "QCRealations";
+
+            SetGridsAppearence();
+        }
+        */
+
         /// <summary>
         /// показываем таблицу результат
         /// </summary>
         private void LoadResults()
         {
-            const string select = "select RT.GameResult,RT.GameDate,RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
-
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(select, con);
             DataSet ds = new DataSet();
-            dataAdapter.Fill(ds);
+            DataTable PlayersDT = PlayerNames();
+            DataTable ResultsDT = Results();
+
+            ds.Tables.Add(PlayersDT);
+            ds.Tables.Add(ResultsDT);
+
+            ds.Relations.Add("RPRealations", PlayersDT.Columns["Id"], ResultsDT.Columns["PlayerName_FK"]);
+
+            BindingSource masterBinding = new BindingSource
+            {
+                DataSource = ds,
+                DataMember = "Players"
+            };
+
+            dataGridView1.DataSource = masterBinding;
+            dataGridView2.DataSource = masterBinding;
+
+            dataGridView1.DataMember = "RPRealations";
+
             dataGridView1.ReadOnly = true;
-            dataGridView1.DataSource = ds.Tables[0];
+            dataGridView2.ReadOnly = true;
+
+            dataGridView1.Columns[0].HeaderText = "Результат, %";
+            dataGridView1.Columns[1].HeaderText = "Дата";
+            dataGridView1.Columns[2].HeaderText = "Назва";
+            dataGridView1.Columns[3].HeaderText = "Витрачений час, сек";
+            dataGridView1.Columns[4].Visible = false;
         }
 
         #region управление дочерними формами
@@ -296,11 +373,11 @@ namespace LearnIT
             }
             if (e.KeyCode == Keys.F2)
             {
-                iconButton_About.PerformClick();
+                iconButton_Settings.PerformClick();
             }
             if (e.KeyCode == Keys.F3)
             {
-                iconButton_Settings.PerformClick();
+                iconButton_About.PerformClick();
             }
             if (e.KeyCode == Keys.F4)
             {
@@ -527,6 +604,7 @@ namespace LearnIT
             {
                 txtPassword.ForeColor = Color.Black;
                 txtPassword.Text = "";
+                txtPassword.PasswordChar = '*';
             }
         }
 
@@ -542,6 +620,7 @@ namespace LearnIT
             {
                 txtPassword.ForeColor = Color.BlueViolet;
                 txtPassword.Text = "Введите пароль";
+                txtPassword.PasswordChar = '\0';
             }
         }
 
@@ -581,6 +660,7 @@ namespace LearnIT
                 SetUserName(dtbl.Rows[0].Field<int>("Id")); //записываем его id как fk в таблице CurrentPackInfo
                 MessageBox.Show("Вы успешно зашли в аккаунт");
                 GetUserName();
+                LoadResults();
             }
             else
             {
@@ -632,6 +712,7 @@ namespace LearnIT
                 cmd.Parameters.AddWithValue("@Password", txtPassword.Text.Trim());
                 cmd.ExecuteNonQuery();
                 con.Close();
+                LoadResults();
                 MessageBox.Show("Аккаунт создан успешно");
             }
         }
@@ -646,6 +727,7 @@ namespace LearnIT
             SetUserName(null);
             MessageBox.Show("Вы успешно вышли из аккаунта");
             GetUserName();
+            LoadResults();
         }
 
         #endregion кнопки

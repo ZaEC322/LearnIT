@@ -56,6 +56,7 @@
             this.button_Update = new System.Windows.Forms.Button();
             this.label_TIME = new System.Windows.Forms.Label();
             this.buttonDropCurrentUserResults = new System.Windows.Forms.Button();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
@@ -66,6 +67,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -100,6 +102,7 @@
             this.iconButton_About.Rotation = 0D;
             this.iconButton_About.Size = new System.Drawing.Size(280, 60);
             this.iconButton_About.TabIndex = 3;
+            this.iconButton_About.TabStop = false;
             this.iconButton_About.Text = "Про програму";
             this.iconButton_About.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconButton_About.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -125,6 +128,7 @@
             this.iconButton_Settings.Rotation = 0D;
             this.iconButton_Settings.Size = new System.Drawing.Size(280, 60);
             this.iconButton_Settings.TabIndex = 2;
+            this.iconButton_Settings.TabStop = false;
             this.iconButton_Settings.Text = "Налаштування";
             this.iconButton_Settings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconButton_Settings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -150,6 +154,7 @@
             this.iconButton_Game.Rotation = 0D;
             this.iconButton_Game.Size = new System.Drawing.Size(280, 60);
             this.iconButton_Game.TabIndex = 1;
+            this.iconButton_Game.TabStop = false;
             this.iconButton_Game.Text = "Гра";
             this.iconButton_Game.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconButton_Game.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -207,7 +212,7 @@
             this.iconButton_Minimize.Name = "iconButton_Minimize";
             this.iconButton_Minimize.Rotation = 0D;
             this.iconButton_Minimize.Size = new System.Drawing.Size(30, 30);
-            this.iconButton_Minimize.TabIndex = 4;
+            this.iconButton_Minimize.TabIndex = 3;
             this.iconButton_Minimize.UseVisualStyleBackColor = true;
             this.iconButton_Minimize.Click += new System.EventHandler(this.IconButton_Minimize_Click);
             // 
@@ -225,7 +230,7 @@
             this.iconButton_Maximize.Name = "iconButton_Maximize";
             this.iconButton_Maximize.Rotation = 0D;
             this.iconButton_Maximize.Size = new System.Drawing.Size(30, 30);
-            this.iconButton_Maximize.TabIndex = 3;
+            this.iconButton_Maximize.TabIndex = 2;
             this.iconButton_Maximize.UseVisualStyleBackColor = true;
             this.iconButton_Maximize.Click += new System.EventHandler(this.IconButton_Maximize_Click);
             // 
@@ -243,7 +248,7 @@
             this.iconButton_Exit.Name = "iconButton_Exit";
             this.iconButton_Exit.Rotation = 0D;
             this.iconButton_Exit.Size = new System.Drawing.Size(30, 30);
-            this.iconButton_Exit.TabIndex = 2;
+            this.iconButton_Exit.TabIndex = 1;
             this.iconButton_Exit.UseVisualStyleBackColor = true;
             this.iconButton_Exit.Click += new System.EventHandler(this.IconButton_Exit_Click);
             // 
@@ -319,13 +324,14 @@
             this.tableLayoutPanel1.Controls.Add(this.button_Update, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label_TIME, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonDropCurrentUserResults, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.dataGridView2, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.95839F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.19896F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.972692F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.25748F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.91417F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1302, 769);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -352,11 +358,11 @@
             // 
             // buttonLogout
             // 
-            this.buttonLogout.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonLogout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonLogout.Location = new System.Drawing.Point(3, 123);
             this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(170, 38);
-            this.buttonLogout.TabIndex = 4;
+            this.buttonLogout.Size = new System.Drawing.Size(213, 38);
+            this.buttonLogout.TabIndex = 7;
             this.buttonLogout.Text = "Выйти";
             this.buttonLogout.UseVisualStyleBackColor = true;
             this.buttonLogout.Click += new System.EventHandler(this.ButtonLogout_Click);
@@ -368,7 +374,7 @@
             this.txtUsername.Location = new System.Drawing.Point(3, 3);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(213, 27);
-            this.txtUsername.TabIndex = 0;
+            this.txtUsername.TabIndex = 4;
             this.txtUsername.Text = "Введите логин";
             this.txtUsername.Enter += new System.EventHandler(this.txtUsername_Enter);
             this.txtUsername.Leave += new System.EventHandler(this.txtUsername_Leave);
@@ -380,29 +386,29 @@
             this.txtPassword.Location = new System.Drawing.Point(3, 41);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(213, 27);
-            this.txtPassword.TabIndex = 1;
+            this.txtPassword.TabIndex = 5;
             this.txtPassword.Text = "Введите пароль";
             this.txtPassword.Enter += new System.EventHandler(this.txtPassword_Enter);
             this.txtPassword.Leave += new System.EventHandler(this.txtPassword_Leave);
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonLogin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonLogin.Location = new System.Drawing.Point(3, 79);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(170, 38);
-            this.buttonLogin.TabIndex = 2;
+            this.buttonLogin.Size = new System.Drawing.Size(213, 38);
+            this.buttonLogin.TabIndex = 6;
             this.buttonLogin.Text = "Войти";
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
             // 
             // buttonNewAcc
             // 
-            this.buttonNewAcc.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonNewAcc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonNewAcc.Location = new System.Drawing.Point(3, 167);
             this.buttonNewAcc.Name = "buttonNewAcc";
-            this.buttonNewAcc.Size = new System.Drawing.Size(170, 38);
-            this.buttonNewAcc.TabIndex = 3;
+            this.buttonNewAcc.Size = new System.Drawing.Size(213, 38);
+            this.buttonNewAcc.TabIndex = 8;
             this.buttonNewAcc.Text = "Создать новый";
             this.buttonNewAcc.UseVisualStyleBackColor = true;
             this.buttonNewAcc.Click += new System.EventHandler(this.ButtonNewAcc_Click);
@@ -423,15 +429,16 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1296, 479);
-            this.dataGridView1.TabIndex = 4;
+            this.dataGridView1.Size = new System.Drawing.Size(1296, 441);
+            this.dataGridView1.StandardTab = true;
+            this.dataGridView1.TabIndex = 10;
             // 
             // button_Update
             // 
             this.button_Update.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Update.Location = new System.Drawing.Point(3, 702);
+            this.button_Update.Location = new System.Drawing.Point(3, 664);
             this.button_Update.Name = "button_Update";
-            this.button_Update.Size = new System.Drawing.Size(219, 64);
+            this.button_Update.Size = new System.Drawing.Size(219, 102);
             this.button_Update.TabIndex = 5;
             this.button_Update.Text = "Обновить результаты";
             this.button_Update.UseVisualStyleBackColor = true;
@@ -452,13 +459,32 @@
             // buttonDropCurrentUserResults
             // 
             this.buttonDropCurrentUserResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonDropCurrentUserResults.Location = new System.Drawing.Point(1012, 702);
+            this.buttonDropCurrentUserResults.Location = new System.Drawing.Point(1012, 664);
             this.buttonDropCurrentUserResults.Name = "buttonDropCurrentUserResults";
-            this.buttonDropCurrentUserResults.Size = new System.Drawing.Size(287, 64);
+            this.buttonDropCurrentUserResults.Size = new System.Drawing.Size(287, 102);
             this.buttonDropCurrentUserResults.TabIndex = 6;
             this.buttonDropCurrentUserResults.Text = "Сбросить свои результаты";
             this.buttonDropCurrentUserResults.UseVisualStyleBackColor = true;
             this.buttonDropCurrentUserResults.Click += new System.EventHandler(this.buttonDropCurrentUserResults_Click);
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AllowUserToOrderColumns = true;
+            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
+            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView2.Location = new System.Drawing.Point(228, 3);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidth = 51;
+            this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.Size = new System.Drawing.Size(778, 208);
+            this.dataGridView2.StandardTab = true;
+            this.dataGridView2.TabIndex = 9;
             // 
             // timer1
             // 
@@ -490,6 +516,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -523,6 +550,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button_Update;
         private System.Windows.Forms.Button buttonDropCurrentUserResults;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }
 
