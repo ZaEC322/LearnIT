@@ -1,6 +1,5 @@
 ﻿using FontAwesome.Sharp; //Библ. с иконками.
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -8,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace LearnIT
 {
@@ -75,9 +73,12 @@ namespace LearnIT
 
         #region Рабочие методы
 
+        /// <summary>
+        /// Для выбора всех игроков
+        /// </summary>
+        /// <returns></returns>
         private DataTable PlayerNames()
         {
-            //const string cmd = "select Id, PlayerName from Players";
             const string cmd = "select Id, PlayerName from Players";
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd, con);
@@ -87,9 +88,12 @@ namespace LearnIT
             return dt;
         }
 
+        /// <summary>
+        /// Для выбора всех результатов
+        /// </summary>
+        /// <returns></returns>
         private DataTable Results()
         {
-            //const string cmd = "select RT.GameResult,RT.GameDate, RT.PackName,RT.Time,PT.PlayerName from ResultLog RT join Players PT on RT.PlayerName_FK=PT.Id";
             const string cmd = "select GameResult, GameDate, PackName, Time, PlayerName_FK from ResultLog";
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd, con);
@@ -98,38 +102,6 @@ namespace LearnIT
             dt.TableName = "Results";
             return dt;
         }
-
-        /// <summary>
-        /// Выводит данные из таблицы Questions и по внешнему ключу выводит ответы к вопросу из
-        /// таблицы Choices.
-        /// </summary>
-      /*  private void DisplayData()
-        {
-            set = new DataSet();
-            DataTable QuestionsTable = FillDataTable("Questions");
-            DataTable ChoicesTable = FillDataTable("Choices");
-
-            QuestionsTable.TableName = "Questions";
-            ChoicesTable.TableName = "Choices";
-            set.Tables.Add(QuestionsTable);
-            set.Tables.Add(ChoicesTable);
-
-            set.Relations.Add("QCRealations", QuestionsTable.Columns["Question_ID"], ChoicesTable.Columns["FK_Question_ID"]);
-
-            BindingSource masterBinding = new BindingSource
-            {
-                DataSource = set,
-                DataMember = "Questions"
-            };
-
-            dataGridView_Questions.DataSource = masterBinding;
-            dataGridView_Choices.DataSource = masterBinding;
-
-            dataGridView_Choices.DataMember = "QCRealations";
-
-            SetGridsAppearence();
-        }
-        */
 
         /// <summary>
         /// показываем таблицу результат
@@ -385,6 +357,11 @@ namespace LearnIT
             }
         }
 
+        /// <summary>
+        /// Загрузка при включении
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMainMenu_Load(object sender, EventArgs e)
         {
             LoadResults();

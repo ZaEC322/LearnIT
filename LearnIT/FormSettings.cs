@@ -35,17 +35,17 @@ namespace LearnIT
         /// <summary>
         /// Последний id в таблице ответов
         /// </summary>
-        private int LastCID = 0;
+        private int LastCID;
 
         /// <summary>
         /// Последний id в таблице вопросов
         /// </summary>
-        private int LastQID = 0;
+        private int LastQID;
 
         /// <summary>
         /// для перемещения фокуса в гриде с вопросами.
         /// </summary>
-        private int rowindx = 0;
+        private int rowindx;
 
         /// <summary>
         /// Выбраный ID
@@ -353,7 +353,6 @@ namespace LearnIT
             //если удалять нечего то ретурн
             if (dataGridView_Questions.Rows.Count == 0)
             {
-                return;
             }
             // если запись одна - значит удаляем последнюю запись. Значит присваиваем ластайди 0.
             else if (dataGridView_Questions.Rows.Count == 1)
