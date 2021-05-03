@@ -13,15 +13,16 @@ namespace LearnIT
     {
         #region оптимизация отображения всего
 
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-                return cp;
-            }
-        }
+        /* protected override CreateParams CreateParams
+         {
+             get
+             {
+                 CreateParams cp = base.CreateParams;
+                 cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                 return cp;
+             }
+         }
+         */
 
         #endregion оптимизация отображения всего
 
@@ -75,12 +76,12 @@ namespace LearnIT
             InitializeComponent();
 
             DoubleBuffered = true;
-            CreateToolTip(a, "Новый пустой вопрос в конец списка");
-            CreateToolTip(button_ChooseXML, "Открыть окно для выбора файла базы");
-            CreateToolTip(button_LoadChosenXML, "Загрузить выбранный файл в программу");
-            CreateToolTip(button_Remove, "Удаляет выделенный вопрос");
-            CreateToolTip(button_SaveThisDBToXML, "Сохранить открытую базу из программы в файл");
-            CreateToolTip(textBox_dbname, "Название файла базы");
+            CreateToolTip(a, "Нове порожнє питання в кінець списку");
+            CreateToolTip(button_ChooseXML, "Відкрити вікно для вибору файлу пакету");
+            CreateToolTip(button_LoadChosenXML, "Завантажити вибраний файл в програму");
+            CreateToolTip(button_Remove, "Видаляє виділене питання");
+            CreateToolTip(button_SaveThisDBToXML, "Зберегти відкритий пакет з програми у файл");
+            CreateToolTip(textBox_dbname, "Назва файлу пакету");
         }
 
         #region Рабочие методы
@@ -156,10 +157,10 @@ namespace LearnIT
             dataGridView_Choices.Columns[3].Width = 75;
 
             dataGridView_Questions.Columns[0].HeaderText = "ID";
-            dataGridView_Questions.Columns[1].HeaderText = "Вопрос";
+            dataGridView_Questions.Columns[1].HeaderText = "Питання";
 
-            dataGridView_Choices.Columns[2].HeaderText = "Ответ";
-            dataGridView_Choices.Columns[3].HeaderText = "Верный";
+            dataGridView_Choices.Columns[2].HeaderText = "Відповідь";
+            dataGridView_Choices.Columns[3].HeaderText = "Вірний";
 
             dataGridView_Questions.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGray;
             dataGridView_Choices.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGray;
@@ -388,7 +389,7 @@ namespace LearnIT
             }
             else
             {
-                MessageBox.Show("Выберите запись для удаления");
+                MessageBox.Show("Виберіть запис для видалення");
             }
         }
 
@@ -408,8 +409,8 @@ namespace LearnIT
                 return;
             }
 
-            DialogResult dialogResult = MessageBox.Show("Желаете сохранить эту базу с именем \"" + textBox_dbname.Text +
-                "\"?", "Внимание!", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Бажаєте зберегти цю базу з ім'ям \"" + textBox_dbname.Text +
+                "\"?", "Увага!", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 if (!Directory.Exists(Application.StartupPath + "\\UserPacks"))//если нету папки userpacks - создаём её.
@@ -418,14 +419,14 @@ namespace LearnIT
                 //Если файл с таким названием уже есть то спрашиваем хочет ли пользователь перезаписать базу.
                 if (File.Exists("UserPacks\\" + textBox_dbname.Text + ".LearnITPack"))
                 {
-                    DialogResult dialogResult2 = MessageBox.Show("Указано существующее название базы - она будет перезаписана.\nЖелаете продолжить?", "Внимание!", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult2 = MessageBox.Show("Вказана існуюча назва бази - вона буде перезаписана.\nБажаєте продовжити?", "Увага!", MessageBoxButtons.YesNo);
                     if (dialogResult2 == DialogResult.Yes)
                     {
                         set.DataSetName = textBox_dbname.Text;
                         SetPackName(set.DataSetName);
                         GetPackName();
                         set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
-                        MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Обновлён");
+                        MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Оновлений");
                     }
                 }
                 //Если такого фалйа не то просто создаём его.
@@ -435,7 +436,7 @@ namespace LearnIT
                     SetPackName(set.DataSetName);
                     GetPackName();
                     set.WriteXml("UserPacks\\" + textBox_dbname.Text + ".LearnITPack");
-                    MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Создан");
+                    MessageBox.Show("UserPacks\\" + textBox_dbname.Text + " Створений");
                 }
             }
         }
@@ -577,7 +578,7 @@ namespace LearnIT
             Directory.CreateDirectory(Path.GetDirectoryName(Application.ExecutablePath) + "\\UserPacks"); //создаёт каталог если его нет
             OFD.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\UserPacks"; //открывает каталог юзерпакс
             OFD.Multiselect = false;
-            OFD.Filter = "Файлы пака xml(*.LearnITPack)|*.LearnITPack|Все файлы (*.*)|*.*";
+            OFD.Filter = "Файлы паку xml(*.LearnITPack)|*.LearnITPack|Все файлы (*.*)|*.*";
             if (OFD.ShowDialog() == DialogResult.OK)
                 textBox_dbname.Text = Path.GetFileNameWithoutExtension(OFD.SafeFileName); //записывает название файла в каталоге
         }
@@ -673,7 +674,7 @@ namespace LearnIT
                 }
                 else
                 {
-                    MessageBox.Show("Строка которую вы пытались вставить содежит недопустимый символ.");
+                    MessageBox.Show("Рядок яку ви намагалися вставити містить неприпустимий символ.");
                     textBox_dbname.Text = "";
                 }
             }

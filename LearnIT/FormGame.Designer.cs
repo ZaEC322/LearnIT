@@ -40,8 +40,11 @@
             this.btn_Answer3 = new System.Windows.Forms.TextBox();
             this.btn_Answer2 = new System.Windows.Forms.TextBox();
             this.btn_Answer1 = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label_QuestCount = new System.Windows.Forms.Label();
             this.panelQuestion.SuspendLayout();
             this.tablePanel_Choices.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_Question
@@ -90,12 +93,12 @@
             // 
             // label_Timer
             // 
-            this.label_Timer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_Timer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.label_Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_Timer.Location = new System.Drawing.Point(1025, 184);
+            this.label_Timer.Location = new System.Drawing.Point(3, 89);
             this.label_Timer.Name = "label_Timer";
-            this.label_Timer.Size = new System.Drawing.Size(256, 185);
+            this.label_Timer.Size = new System.Drawing.Size(250, 84);
             this.label_Timer.TabIndex = 7;
             this.label_Timer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -129,8 +132,8 @@
             this.tablePanel_Choices.Controls.Add(this.btn_Answer3, 0, 1);
             this.tablePanel_Choices.Controls.Add(this.btn_Answer2, 1, 0);
             this.tablePanel_Choices.Controls.Add(this.btn_Answer1, 0, 0);
-            this.tablePanel_Choices.Controls.Add(this.label_Timer, 2, 1);
             this.tablePanel_Choices.Controls.Add(this.button_Next, 2, 0);
+            this.tablePanel_Choices.Controls.Add(this.tableLayoutPanel1, 2, 1);
             this.tablePanel_Choices.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tablePanel_Choices.Location = new System.Drawing.Point(0, 353);
             this.tablePanel_Choices.Name = "tablePanel_Choices";
@@ -145,7 +148,6 @@
             // btn_Answer4
             // 
             this.btn_Answer4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
-            this.btn_Answer4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer4.ForeColor = System.Drawing.Color.Gainsboro;
@@ -165,7 +167,6 @@
             // btn_Answer3
             // 
             this.btn_Answer3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
-            this.btn_Answer3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer3.ForeColor = System.Drawing.Color.Gainsboro;
@@ -185,7 +186,6 @@
             // btn_Answer2
             // 
             this.btn_Answer2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
-            this.btn_Answer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer2.ForeColor = System.Drawing.Color.Gainsboro;
@@ -205,7 +205,6 @@
             // btn_Answer1
             // 
             this.btn_Answer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(84)))));
-            this.btn_Answer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.btn_Answer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Answer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_Answer1.ForeColor = System.Drawing.Color.Gainsboro;
@@ -221,6 +220,32 @@
             this.btn_Answer1.MouseEnter += new System.EventHandler(this.Btn_Answer1_MouseEnter);
             this.btn_Answer1.MouseLeave += new System.EventHandler(this.Btn_Answer1_MouseLeave);
             this.btn_Answer1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_Answer1_MouseMove);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.label_Timer, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label_QuestCount, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1025, 187);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(256, 179);
+            this.tableLayoutPanel1.TabIndex = 15;
+            // 
+            // label_QuestCount
+            // 
+            this.label_QuestCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.label_QuestCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_QuestCount.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_QuestCount.Location = new System.Drawing.Point(3, 0);
+            this.label_QuestCount.Name = "label_QuestCount";
+            this.label_QuestCount.Size = new System.Drawing.Size(250, 84);
+            this.label_QuestCount.TabIndex = 8;
+            this.label_QuestCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormGame
             // 
@@ -239,6 +264,7 @@
             this.panelQuestion.PerformLayout();
             this.tablePanel_Choices.ResumeLayout(false);
             this.tablePanel_Choices.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -255,5 +281,7 @@
         private System.Windows.Forms.TextBox btn_Answer2;
         private System.Windows.Forms.TextBox btn_Answer4;
         private System.Windows.Forms.TextBox btn_Answer3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label_QuestCount;
     }
 }

@@ -43,8 +43,7 @@ namespace LearnIT
         /// <summary>
         /// подключение
         /// </summary>
-        public SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
-            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
+        public SqlConnection con;
 
         /// <summary>
         /// для комманд
@@ -56,6 +55,16 @@ namespace LearnIT
         //конструктор
         public FormMainMenu()
         {
+            try
+            {
+                con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.mdf", SearchOption.AllDirectories).First() + ";Integrated Security=True;Connect Timeout=30;");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Не вдалось знайти базу даних");
+                Environment.Exit(0);
+            }
             InitializeComponent();
             timer1.Enabled = true; //подрубаем часики
             timer1.Interval = 1000;
@@ -130,6 +139,11 @@ namespace LearnIT
 
             dataGridView1.ReadOnly = true;
             dataGridView2.ReadOnly = true;
+
+            dataGridView2.Columns[0].HeaderText = "ID";
+            dataGridView2.Columns[1].HeaderText = "Ім'я";
+
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             dataGridView1.Columns[0].HeaderText = "Результат, %";
             dataGridView1.Columns[1].HeaderText = "Дата";
@@ -267,23 +281,23 @@ namespace LearnIT
             }
             catch (NullReferenceException)
             {
-                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                label_LogText.Text = "Привіт, будь ласка увійдіть до аккаунта.";
                 return;
             }
             catch (InvalidCastException)
             {
-                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                label_LogText.Text = "Привіт, будь ласка увійдіть до аккаунта.";
                 return;
             }
             catch (Exception)
             {
-                label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+                label_LogText.Text = "Привіт, будь ласка увійдіть до аккаунта.";
                 return;
             }
             con.Open();
             cmd = new SqlCommand("Select PlayerName from Players Where Id = @Id", con);
             cmd.Parameters.AddWithValue("@Id", temp);
-            label_LogText.Text = "Привет, " + (string)cmd.ExecuteScalar();
+            label_LogText.Text = "Привіт, " + (string)cmd.ExecuteScalar();
             con.Close();
         }
 
@@ -391,12 +405,12 @@ namespace LearnIT
             int? temp = GetCurrentUserID();
             if (temp == null)
             {
-                MessageBox.Show("Войдите в аккаунт");
+                MessageBox.Show("Увійдіть до аккаунта");
             }
             else
             {
-                DialogResult dialogResult = MessageBox.Show("Данное действие удалит все результаты текщего пользователя" +
-                    ".\nЖелаете продолжить?", "ВНИМАНИЕ!", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Ця дія видалить усі результати поточного користувача" +
+                    ".\nБажаєте продовжити?", "УВАГА!", MessageBoxButtons.YesNo);
                 if (dialogResult != DialogResult.No)
                 {
                     cmd = new SqlCommand("DELETE FROM ResultLog WHERE PlayerName_FK = @PlayerName_FK", con);
@@ -547,7 +561,7 @@ namespace LearnIT
         /// <param name="e"></param>
         private void txtUsername_Enter(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "Введите логин")
+            if (txtUsername.Text == "Введіть логін")
             {
                 txtUsername.ForeColor = Color.Black;
                 txtUsername.Text = "";
@@ -565,7 +579,7 @@ namespace LearnIT
             if (txtUsername.Text.Length == 0)
             {
                 txtUsername.ForeColor = Color.BlueViolet;
-                txtUsername.Text = "Введите логин";
+                txtUsername.Text = "Введіть логін";
             }
         }
 
@@ -577,7 +591,7 @@ namespace LearnIT
         /// <param name="e"></param>
         private void txtPassword_Enter(object sender, EventArgs e)
         {
-            if (txtPassword.Text == "Введите пароль")
+            if (txtPassword.Text == "Введіть пароль")
             {
                 txtPassword.ForeColor = Color.Black;
                 txtPassword.Text = "";
@@ -596,7 +610,7 @@ namespace LearnIT
             if (txtPassword.Text.Length == 0)
             {
                 txtPassword.ForeColor = Color.BlueViolet;
-                txtPassword.Text = "Введите пароль";
+                txtPassword.Text = "Введіть пароль";
                 txtPassword.PasswordChar = '\0';
             }
         }
@@ -615,12 +629,12 @@ namespace LearnIT
             //проверки
             if (txtUsername.Text.Length < 1)
             {
-                MessageBox.Show("Логин должен быть не короче одного символа");
+                MessageBox.Show("Логін має бути не коротший за один символ");
                 return;
             }
             if (txtPassword.Text.Length < 1)
             {
-                MessageBox.Show("Пароль должен быть не короче одного символа");
+                MessageBox.Show("Пароль має бути не коротший за один символ");
                 return;
             }
 
@@ -635,13 +649,13 @@ namespace LearnIT
             if (dtbl.Rows.Count == 1)//если такой аккаунт есть то
             {
                 SetUserName(dtbl.Rows[0].Field<int>("Id")); //записываем его id как fk в таблице CurrentPackInfo
-                MessageBox.Show("Вы успешно зашли в аккаунт");
+                MessageBox.Show("Ви успішно зайшли в аккаунт");
                 GetUserName();
                 LoadResults();
             }
             else
             {
-                MessageBox.Show("Логин или пароль неправильный");
+                MessageBox.Show("Логін або пароль неправильний");
             }
         }
 
@@ -652,14 +666,14 @@ namespace LearnIT
         /// <param name="e"></param>
         private void ButtonNewAcc_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text.Length < 1 || txtUsername.Text == "Введите логин")
+            if (txtUsername.Text.Length < 1 || txtUsername.Text == "Введіть логін")
             {
-                MessageBox.Show("Логин должен быть не короче одного символа");
+                MessageBox.Show("Логін має бути не коротший за один символ");
                 return;
             }
-            if (txtPassword.Text.Length < 1 || txtPassword.Text == "Введите пароль")
+            if (txtPassword.Text.Length < 1 || txtPassword.Text == "Введіть пароль")
             {
-                MessageBox.Show("Пароль должен быть не короче одного символа");
+                MessageBox.Show("Пароль має бути не коротший за один символ");
                 return;
             }
             DataTable dtbl = new DataTable();
@@ -672,7 +686,7 @@ namespace LearnIT
 
             if (dtbl.Rows.Count == 1)
             {
-                MessageBox.Show("Такой юзер уже есть");
+                MessageBox.Show("Такий юзер вже є");
             }
             else//создаём новую запись в players
             {
@@ -690,7 +704,7 @@ namespace LearnIT
                 cmd.ExecuteNonQuery();
                 con.Close();
                 LoadResults();
-                MessageBox.Show("Аккаунт создан успешно");
+                MessageBox.Show("Аккаунт створений успішно");
             }
         }
 
@@ -702,7 +716,7 @@ namespace LearnIT
         private void ButtonLogout_Click(object sender, EventArgs e)
         {
             SetUserName(null);
-            MessageBox.Show("Вы успешно вышли из аккаунта");
+            MessageBox.Show("Ви успішно вийшли з аккаунта");
             GetUserName();
             LoadResults();
         }

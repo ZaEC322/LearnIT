@@ -61,6 +61,11 @@ namespace LearnIT
         private int CorrectCounter;
 
         /// <summary>
+        /// Общее количество отвеченых вопросов
+        /// </summary>
+        private int tempCounter = 0;
+
+        /// <summary>
         /// для хранинения рандомно выбраного индекса текущего вопроса.
         /// </summary>
         private int temp;
@@ -321,7 +326,7 @@ namespace LearnIT
                 GameEnd();
             questCount = list_Questions.Count; //Присваеваем в лоаде потому-что записи из листа по мере выполнения
                                                //программы будут удаляться и надо записыть кол-во вопросов заранее.
-
+            label_QuestCount.Text = "0/" + questCount.ToString();
             panelQuestion.Hide();
             tablePanel_Choices.Hide();
 
@@ -559,15 +564,17 @@ namespace LearnIT
         private bool WinOrLose(int b)
         {
             Is_Answered = true; //ответ был дан
+            tempCounter++;
+            label_QuestCount.Text = tempCounter + "/" + questCount.ToString();
+            list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
+
             if (Is_Correct[b])
             {
                 CorrectCounter++;//если правильно ответил то засчитываем балл
-                list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
                 return true;
             }
             else
             {
-                list_Questions.RemoveAt(temp); //удаляем текущий вопрос из листа чтобы он больше не показывался.
                 return false;
             }
         }
@@ -681,7 +688,7 @@ namespace LearnIT
             //переделать по красивей что-то придумать мб график или таблицу результатов.
             TextBox txt = new TextBox()
             {
-                Text = "Вопросы закончились. Правильных ответов " + CorrectCounter + " из " + questCount + "\r\nВремя: " + _ticks + "\\" + timeLimit + " сек.",
+                Text = "Питання закінчилися. Правильних відповідей " + CorrectCounter + " из " + questCount + "\r\nЧас: " + _ticks + "\\" + timeLimit + " сек.",
                 Dock = DockStyle.Fill,
                 Parent = this,
                 BackColor = Color.FromArgb(34, 33, 74),

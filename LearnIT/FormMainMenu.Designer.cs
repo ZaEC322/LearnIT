@@ -289,9 +289,9 @@
             this.label_LogText.ForeColor = System.Drawing.Color.White;
             this.label_LogText.Location = new System.Drawing.Point(767, 25);
             this.label_LogText.Name = "label_LogText";
-            this.label_LogText.Size = new System.Drawing.Size(271, 17);
+            this.label_LogText.Size = new System.Drawing.Size(273, 17);
             this.label_LogText.TabIndex = 7;
-            this.label_LogText.Text = "Привет, пожалуйста войдите в аккаунт.";
+            this.label_LogText.Text = "Привіт, будь ласка увійдіть до аккаунта.";
             // 
             // panelShadow
             // 
@@ -363,7 +363,7 @@
             this.buttonLogout.Name = "buttonLogout";
             this.buttonLogout.Size = new System.Drawing.Size(213, 38);
             this.buttonLogout.TabIndex = 7;
-            this.buttonLogout.Text = "Выйти";
+            this.buttonLogout.Text = "Вийти";
             this.buttonLogout.UseVisualStyleBackColor = true;
             this.buttonLogout.Click += new System.EventHandler(this.ButtonLogout_Click);
             // 
@@ -375,7 +375,7 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(213, 27);
             this.txtUsername.TabIndex = 4;
-            this.txtUsername.Text = "Введите логин";
+            this.txtUsername.Text = "Введіть логін";
             this.txtUsername.Enter += new System.EventHandler(this.txtUsername_Enter);
             this.txtUsername.Leave += new System.EventHandler(this.txtUsername_Leave);
             // 
@@ -387,7 +387,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(213, 27);
             this.txtPassword.TabIndex = 5;
-            this.txtPassword.Text = "Введите пароль";
+            this.txtPassword.Text = "Введіть пароль";
             this.txtPassword.Enter += new System.EventHandler(this.txtPassword_Enter);
             this.txtPassword.Leave += new System.EventHandler(this.txtPassword_Leave);
             // 
@@ -398,7 +398,7 @@
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(213, 38);
             this.buttonLogin.TabIndex = 6;
-            this.buttonLogin.Text = "Войти";
+            this.buttonLogin.Text = "Увійти";
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
             // 
@@ -409,7 +409,7 @@
             this.buttonNewAcc.Name = "buttonNewAcc";
             this.buttonNewAcc.Size = new System.Drawing.Size(213, 38);
             this.buttonNewAcc.TabIndex = 8;
-            this.buttonNewAcc.Text = "Создать новый";
+            this.buttonNewAcc.Text = "Створити новий";
             this.buttonNewAcc.UseVisualStyleBackColor = true;
             this.buttonNewAcc.Click += new System.EventHandler(this.ButtonNewAcc_Click);
             // 
@@ -440,7 +440,7 @@
             this.button_Update.Name = "button_Update";
             this.button_Update.Size = new System.Drawing.Size(219, 102);
             this.button_Update.TabIndex = 5;
-            this.button_Update.Text = "Обновить результаты";
+            this.button_Update.Text = "Оновити результати";
             this.button_Update.UseVisualStyleBackColor = true;
             this.button_Update.Click += new System.EventHandler(this.button_Update_Click);
             // 
@@ -463,7 +463,7 @@
             this.buttonDropCurrentUserResults.Name = "buttonDropCurrentUserResults";
             this.buttonDropCurrentUserResults.Size = new System.Drawing.Size(287, 102);
             this.buttonDropCurrentUserResults.TabIndex = 6;
-            this.buttonDropCurrentUserResults.Text = "Сбросить свои результаты";
+            this.buttonDropCurrentUserResults.Text = "Видалити свої результати";
             this.buttonDropCurrentUserResults.UseVisualStyleBackColor = true;
             this.buttonDropCurrentUserResults.Click += new System.EventHandler(this.buttonDropCurrentUserResults_Click);
             // 
