@@ -87,6 +87,7 @@
             this.button_Next.Name = "button_Next";
             this.button_Next.Size = new System.Drawing.Size(256, 178);
             this.button_Next.TabIndex = 4;
+            this.button_Next.TabStop = false;
             this.button_Next.Text = "Наступне питання";
             this.button_Next.UseVisualStyleBackColor = true;
             this.button_Next.Click += new System.EventHandler(this.Button_Next_Click);

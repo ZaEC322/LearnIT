@@ -301,6 +301,7 @@ namespace LearnIT
         private void Button_Next_Click(object sender, EventArgs e)
         {
             NextQuestion();
+            this.ActiveControl = null;
         }
 
         #endregion клики кнопки на форме
